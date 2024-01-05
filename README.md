@@ -6,8 +6,12 @@ in use on [LAMMPS tutorials](https://lammpstutorials.github.io) and
 
 ## Example
 
-The best of the two images depends on dark-mode / light mode you are using:
+The best of the two images depends on dark-mode / light mode you are using.
+
+For light mode:
 
 ![illustration](examples/example-1-light.png)
+
+For dark mode:
 
 ![illustration](examples/example-1-dark.png)
