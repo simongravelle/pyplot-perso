@@ -114,17 +114,17 @@ def complete_panel(ax, xlabel, ylabel, cancel_x=False, cancel_y=False,
     if ypad is not None:
         ax.tick_params(axis='y', colors=axis_color, pad = ypad)
 
-def save_figure(fig, mode, git_root, path_figures, filename, show=False):
+def save_figure(plt, fig, mode, git_root, path_figures, filename, show=False, trans=True):
     assert os.path.exists(git_root + path_figures)
     fig.tight_layout()
     if mode == 'light':
         plt.savefig(git_root + path_figures + filename + "-light.png",
                     bbox_inches = 'tight', pad_inches = 0.062,
-                    transparent=True, dpi=200)
+                    transparent=trans, dpi=200)
     else:
         plt.savefig(git_root + path_figures + filename + "-dark.png",
                     bbox_inches = 'tight', pad_inches = 0.062,
-                    transparent=True, dpi=200)
+                    transparent=trans, dpi=200)
     if show:
         plt.show()
 
