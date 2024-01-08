@@ -15,3 +15,13 @@ For light mode:
 For dark mode:
 
 ![illustration](examples/example-1-dark.png)
+
+## Open symbols
+
+For open symbol plot, use:
+
+``` python
+markeredgewidth=3, 
+markeredgecolor=colors["mygray"],
+markerfacecolor='none',
+```
