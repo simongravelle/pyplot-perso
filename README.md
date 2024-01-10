@@ -7,14 +7,15 @@ in use on [LAMMPS tutorials](https://lammpstutorials.github.io) and
 ## Example
 
 The best of the two images depends on dark-mode / light mode you are using.
-
-For light mode:
+See the [examples](examples.ipynb) notebook for illustration of the use the functions.
 
 ![illustration](examples/example-1-light.png)
 
-For dark mode:
-
 ![illustration](examples/example-1-dark.png)
+
+![illustration](examples/example-2-light.png)
+
+![illustration](examples/example-2-dark.png)
 
 ## Open symbols
 
