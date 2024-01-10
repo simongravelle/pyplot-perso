@@ -17,11 +17,11 @@ See the [examples](examples.ipynb) notebook for the commands behind these figure
 
 ![illustration](examples/example-1-light.png#gh-light-mode-only)
 
-![illustration](examples/example-1-dark.pnggh-dark-mode-only)
+![illustration](examples/example-1-dark.png#gh-dark-mode-only)
 
 ![illustration](examples/example-2-light.png#gh-light-mode-only)
 
-![illustration](examples/example-2-dark.pnggh-dark-mode-only)
+![illustration](examples/example-2-dark.png#gh-dark-mode-only)
 
 ## Open symbols
 
