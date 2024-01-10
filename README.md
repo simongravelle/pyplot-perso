@@ -15,13 +15,13 @@ without transparent background.
 
 See the [examples](examples.ipynb) notebook for the commands behind these figures.
 
-![illustration](examples/example-1-light.png)
+![illustration](examples/example-1-light.png#gh-light-mode-only)
 
-![illustration](examples/example-1-dark.png)
+![illustration](examples/example-1-dark.pnggh-dark-mode-only)
 
-![illustration](examples/example-2-light.png)
+![illustration](examples/example-2-light.png#gh-light-mode-only)
 
-![illustration](examples/example-2-dark.png)
+![illustration](examples/example-2-dark.pnggh-dark-mode-only)
 
 ## Open symbols
 
