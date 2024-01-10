@@ -1,13 +1,19 @@
 # Matplotlib Pyplot functions
 
-Personal functions for making [Pyplot](https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html) figures compatible with Latex documents. These functions are also
-in use on [LAMMPS tutorials](https://lammpstutorials.github.io) and 
+Personal functions for making [Pyplot](https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html) figures compatible with Latex documents.
+These functions are used for several of my personal projects, including [LAMMPS tutorials](https://lammpstutorials.github.io) and 
 [NMRforMD](https://nmrformd.readthedocs.io).
+
+## Light mode vs dark mode
+
+To improve the visual of the [website](https://lammpstutorials.github.io) I am creating, 
+I systematically generate figures for both light mode and dark mode, with 
+transparent background. For a scientific publication, use the light mode
+without transparent background.
 
 ## Example
 
-The best of the two images depends on dark-mode / light mode you are using.
-See the [examples](examples.ipynb) notebook for illustration of the use the functions.
+See the [examples](examples.ipynb) notebook for the commands behind these figures.
 
 ![illustration](examples/example-1-light.png)
 
