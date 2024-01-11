@@ -21,7 +21,7 @@ See the [examples](examples.ipynb) notebook for the commands behind these figure
 
 ![illustration](examples/example-1-dark.png#gh-dark-mode-only)
 
-### Triple panels with two different widths
+### Triple panels with two different widths and labels
 
 ![illustration](examples/example-2-light.png#gh-light-mode-only)
 
