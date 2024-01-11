@@ -6,9 +6,9 @@ These functions are used for several of my personal projects, including [LAMMPS 
 
 ## Light mode vs dark mode
 
-To improve the visual of the [website](https://lammpstutorials.github.io) I am creating, 
-I systematically generate figures for both light mode and dark mode, with 
-transparent background. For a scientific publication, use the light mode
+Most of my [projects](https://lammpstutorials.github.io) have a dark and a light modes, 
+therefore I systematically generate figures for both modes, with 
+transparent background. For a scientific publication, I use the light mode
 without transparent background.
 
 ## Example
