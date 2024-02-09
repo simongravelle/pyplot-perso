@@ -6,7 +6,7 @@ These functions are used for several of my personal projects, including [LAMMPS 
 
 ## Light mode vs dark mode
 
-- For web integration, use either dark or light mode with a transparent background, as done for intance for [lammps tutorials](https://lammpstutorials.github.io).
+- For web integration, use either dark or light mode with a transparent background, as done for instance in the website/ebook of [lammps tutorials](https://lammpstutorials.github.io).
 - For scientific publication, use the light mode without transparent background.
 
 ## Example
