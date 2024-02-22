@@ -4,12 +4,6 @@ import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 from matplotlib.ticker import AutoMinorLocator
 
-plt.rcParams.update({
-    "text.usetex": True,
-    "font.family": "serif",
-    "font.serif": ["Palatino"],
-})
-
 fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
 
@@ -23,6 +17,13 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6)):
         else:
             print("WARNING: unknown choice of mode")
     fig = plt.figure(figsize=desired_figsize)
+
+    # For latex-type font
+    plt.rcParams.update({
+        "text.usetex": True,
+        "font.family": "serif",
+        "font.serif": ["Palatino"],
+    })
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
