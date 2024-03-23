@@ -139,7 +139,8 @@ def save_figure(plt, fig, mode, git_root, path_figures, filename, show=False, tr
                     bbox_inches = 'tight', pad_inches = 0.062,
                     transparent=transparency, dpi=200)
     else:
- 
+        if transparency is False:
+            plt.style.use('default')
         plt.savefig(git_root + path_figures + filename + "-dark.png",
                     bbox_inches = 'tight', pad_inches = 0.062,
                     transparent=transparency, dpi=200)
