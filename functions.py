@@ -26,12 +26,10 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), serif=Tru
             "font.serif": ["Palatino"],
         }) 
     else:
-        plt.rcParams.update({
-            "text.usetex": True,
-            'text.latex.preamble': [r'\usepackage{cmbright}', r'\usepackage{amsmath}'],
-            #"font.family": "sans-serif",
-            #"font.sans-serif": ["Open Sans"],
-        })              
+        plt.rcParams['text.usetex'] = True 
+        plt.rcParams['text.latex.preamble'] = [r'\usepackage[cm]{sfmath}']
+        plt.rcParams['font.family'] = 'sans-serif'
+        plt.rcParams['font.sans-serif'] = 'cm'
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
