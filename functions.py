@@ -27,12 +27,10 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), serif=Tru
         }) 
     else:
         plt.rcParams.update({
-            "text.usetex": True,
+            "text.usetex": False,
             "font.family": "sans-serif",
             "font.sans-serif": ["Open Sans"],
         })              
-        plt.rcParams.update({'text.usetex': False,
-                             'mathtext.fontset': 'stixsans'})
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
