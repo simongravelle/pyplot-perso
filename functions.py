@@ -27,7 +27,7 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), serif=Tru
         }) 
     else:
         plt.rcParams.update({
-            "text.usetex": False,
+            "text.usetex": True,
             "font.family": "sans-serif",
             "font.sans-serif": ["Open Sans"],
         })              
