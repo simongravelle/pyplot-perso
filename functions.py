@@ -8,7 +8,7 @@ fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
 
 
-def prepare_figure(mode, transparency = False, desired_figsize=(18,6)):
+def prepare_figure(mode, transparency = False, desired_figsize=(18,6), font=None):
     if transparency is False:
         if mode == 'dark':
             plt.style.use('dark_background')
@@ -18,12 +18,20 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6)):
             print("WARNING: unknown choice of mode")
     fig = plt.figure(figsize=desired_figsize)
 
-    # For latex-type font
-    plt.rcParams.update({
-        "text.usetex": True,
-        "font.family": "serif",
-        "font.serif": ["Palatino"],
-    })
+    if font is None:
+        # For latex-type font
+        plt.rcParams.update({
+            "text.usetex": True,
+            "font.family": "serif",
+            "font.serif": ["Palatino"],
+        }) 
+    else:
+        # For latex-type font
+        plt.rcParams.update({
+            "text.usetex": True,
+            "font.family": "serif",
+            "font.serif": [font],
+        })   
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
