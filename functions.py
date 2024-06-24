@@ -34,12 +34,20 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), font=None
                 "font.serif": [font],
             })   
         else:
-            # For latex-type font
-            plt.rcParams.update({
-                "text.usetex": True,
-                "font.family": fontfamily,
-                "font.serif": [font],
-            })         
+            if fontfamily == "sans-serif":
+                # For latex-type font
+                plt.rcParams.update({
+                    "text.usetex": True,
+                    "font.family": fontfamily,
+                    "font.sans-serif": [font],
+                })      
+            else:
+                # For latex-type font
+                plt.rcParams.update({
+                    "text.usetex": True,
+                    "font.family": fontfamily,
+                    "font.serif": [font],
+                })               
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
