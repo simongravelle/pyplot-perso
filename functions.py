@@ -8,7 +8,7 @@ fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
 
 
-def prepare_figure(mode, transparency = False, desired_figsize=(18,6), font=None, fontfamily=None):
+def prepare_figure(mode, transparency = False, desired_figsize=(18,6), serif=True):
     if transparency is False:
         if mode == 'dark':
             plt.style.use('dark_background')
@@ -18,7 +18,7 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), font=None
             print("WARNING: unknown choice of mode")
     fig = plt.figure(figsize=desired_figsize)
 
-    if font is None:
+    if serif:
         # For latex-type font
         plt.rcParams.update({
             "text.usetex": True,
@@ -26,28 +26,11 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), font=None
             "font.serif": ["Palatino"],
         }) 
     else:
-        if fontfamily is None:
-            # For latex-type font
-            plt.rcParams.update({
-                "text.usetex": True,
-                "font.family": "serif",
-                "font.serif": [font],
-            })   
-        else:
-            if fontfamily == "sans-serif":
-                # For latex-type font
-                plt.rcParams.update({
-                    "text.usetex": True,
-                    "font.family": fontfamily,
-                    "font.sans-serif": [font],
-                })      
-            else:
-                # For latex-type font
-                plt.rcParams.update({
-                    "text.usetex": True,
-                    "font.family": fontfamily,
-                    "font.serif": [font],
-                })               
+        plt.rcParams.update({
+            "text.usetex": True,
+            "font.family": "sans-serif",
+            "font.serif": ["Palatino"],
+        })              
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
