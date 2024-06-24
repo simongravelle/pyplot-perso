@@ -10,6 +10,8 @@ colors = {
   "mydarkgray": [0.9, 0.9, 0.9],
   "myblueANR": [0.224, 0.467, 0.878],
   "myredANR": [0.867, 0.349, 0.384],
+  "bluelivecom": [0.039, 0.616, 0.851],
+  "graylivecom": [0.427, 0.431, 0.439],
 }
 
 def mygradient(N, color1, color2, final_value=False):
