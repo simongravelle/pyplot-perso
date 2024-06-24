@@ -10,7 +10,8 @@ colors = {
   "mydarkgray": [0.9, 0.9, 0.9],
   "myblueANR": [0.224, 0.467, 0.878],
   "myredANR": [0.867, 0.349, 0.384],
-  "bluelivecom": [0.039, 0.616, 0.851],
+  "blue1livecom": [0.153, 0.231, 0.606],
+  "blue2livecom": [0.039, 0.616, 0.851],
   "graylivecom": [0.427, 0.431, 0.439],
 }
 
