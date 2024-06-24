@@ -29,7 +29,7 @@ def prepare_figure(mode, transparency = False, desired_figsize=(18,6), serif=Tru
         plt.rcParams.update({
             "text.usetex": True,
             "font.family": "sans-serif",
-            "font.serif": ["Open Sans"],
+            "font.sans-serif": ["Open Sans"],
         })              
     return fig
 
