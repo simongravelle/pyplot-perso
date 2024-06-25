@@ -13,6 +13,10 @@ colors = {
   "blue1livecom": [0.153, 0.231, 0.606],
   "blue2livecom": [0.033, 0.7, 0.97],
   "graylivecom": [0.427, 0.431, 0.439],
+  "neoncyan": [0, 254, 252]/255,
+  "skobeloffgreen": [0, 116, 116]/255,
+  "tealblue": [54, 117, 136]/255,
+  "midnightgreen": [0, 73, 83]/255,
 }
 
 def mygradient(N, color1, color2, final_value=False):
