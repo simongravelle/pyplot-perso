@@ -24,7 +24,7 @@ colors = {
   "bluegreen": [0, 0.28, 0.34],
   "bluegreenpastel": [0.6, 0.87, 0.85],
   "bluepastel": [0.6, 0.6, 0.85],
-  "lightturquoise": [0.68, 0.93, 0.93],
+  "lightturquoise": [0.63, 0.88, 0.88],
 }
 
 def mygradient(N, color1, color2, final_value=False):
