@@ -1,3 +1,6 @@
+[Hash Sign(#)][Space]Any Header/subtitle or any text you want starting with hash
+[Tab][Tab]Your text
+
 | ![xkcd:black](view/black.png) | xkcd:black | 
 | ![xkcd:white](view/white.png) | xkcd:white | 
 | ![xkcd:dull red](view/dull_red.png) | xkcd:dull red | 
