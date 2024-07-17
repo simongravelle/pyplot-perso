@@ -7,75 +7,110 @@ from matplotlib.ticker import AutoMinorLocator
 fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
 
-def plot_xy(ax,
-            x,
-            y,
-            marker,
-            type = 'plot',
-            markersize = 12,
-            linewidth = 4,
-            color = 'blue',
-            label = None,
-            open_symbols = False):
-    
-    if open_symbols:
-        markeredgewidth = 3
-        markerfacecolor = 'none'
-    else:
-        markeredgewidth = 0
-        markerfacecolor = color
-
-    ax[-1].plot(x,
-                y,
-                marker,
-                color = color,
-                markersize = markersize,
-                linewidth = linewidth,
-                label = label,
-                markeredgewidth = markeredgewidth,
-                markeredgecolor = color,
-                markerfacecolor = markerfacecolor)
-    
-    if (type == 'semilogy') | (type == 'loglog'):
-        ax[-1].set_yscale('log')
-    if (type == 'semilogx') | (type == 'loglog'):
-        ax[-1].set_xscale('log')
-
-def prepare_figure(fig_size=(18,6),
-                   dark_mode = False,
-                   transparency = False,
-                   use_serif = True,
-                   tex_font = True):
+class PrepareFigure():
     """Prepare the figure.
     fig_size must be chosen as a tuple, e.g. (18,6)
     If dark_mode, then a dark background is set.
     """
-    # set the right background
-    if transparency is False:
-        if dark_mode:
-            plt.style.use('dark_background')
+    def __init__(self,
+                 fig_size = None,
+                 dark_mode = False,
+                 transparency = False,
+                 use_serif = True,
+                 tex_font = True,
+                 *args,
+                 **kwargs
+                 ):
+        super().__init__(*args, **kwargs)
+        self.fig_size = fig_size
+        self.dark_mode = dark_mode
+        self.transparency = transparency
+        self.use_serif = use_serif
+        self.tex_font = tex_font
+
+        self.prepare_figure()
+
+    def prepare_figure(self):
+        # set the right background
+        if self.transparency is False:
+            if self.dark_mode:
+                plt.style.use('dark_background')
+            else:
+                plt.style.use('default')
+        # set the figure size
+        fig = plt.figure(figsize=self.fig_size)
+        # choose the font
+        if self.tex_font:
+            if self.use_serif:
+                # Serif latex font
+                plt.rcParams.update({
+                    "text.usetex": True,
+                    "font.family": "serif",
+                    "font.serif": ["Palatino"],
+                }) 
+            else:
+                # Non-serif latex font
+                plt.rcParams.update({
+                    "text.usetex": True,
+                    "font.family": "sans-serif",
+                    "font.serif": ["Open Sans"],
+                    "text.latex.preamble" : r"\usepackage{cmbright}"
+                })
+
+        ax = []
+        ax.append(plt.subplot(2, 2, 1))
+        
+        self.fig = fig
+        self.ax = ax
+
+class PlotData(PrepareFigure):
+    def __init__(self,
+                 x = None,
+                 y = None,
+                 marker = None,
+                 markersize = 12,
+                 linewidth = 4,
+                 color = 'blue',
+                 label = None,
+                 open_symbols = False,
+                 markeredgewidth = 0,
+                 *args,
+                 **kwargs
+                 ):
+        super().__init__(*args, **kwargs)
+        self.x = x
+        self.y = y
+        self.marker = marker
+        self.markersize = markersize
+        self.linewidth = linewidth
+        self.color = color
+        self.label = label
+        self.open_symbols = open_symbols
+        self.markeredgewidth = markeredgewidth
+        
+        if self.open_symbols:
+            self.markerfacecolor = 'none'
         else:
-            plt.style.use('default')
-    # set the figure size
-    fig = plt.figure(figsize=fig_size)
-    # choose the font
-    if tex_font:
-        if use_serif:
-            # Serif latex font
-            plt.rcParams.update({
-                "text.usetex": True,
-                "font.family": "serif",
-                "font.serif": ["Palatino"],
-            }) 
-        else:
-            # Non-serif latex font
-            plt.rcParams.update({
-                "text.usetex": True,
-                "font.family": "sans-serif",
-                "font.serif": ["Open Sans"],
-                "text.latex.preamble" : r"\usepackage{cmbright}"
-            })
-    return fig
+            self.markerfacecolor = color
+
+        if self.x is not None:
+
+            self.ax[-1].plot(self.x,
+                        self.y,
+                        self.marker,
+                        color = self.color,
+                        markersize = self.markersize,
+                        linewidth = self.linewidth,
+                        label = self.label,
+                        markeredgewidth = self.markeredgewidth,
+                        markeredgecolor = self.color,
+                        markerfacecolor = self.markerfacecolor)
+            
+            if (self.type == 'semilogy') | (self.type == 'loglog'):
+                self.ax[-1].set_yscale('log')
+            if (self.type == 'semilogx') | (self.type == 'loglog'):
+                self.ax[-1].set_xscale('log')
+
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
     """Add a labels to each axis of a figure."""
@@ -112,9 +147,9 @@ def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=Non
 
 
 def complete_panel(ax, xlabel, ylabel, cancel_x=False, cancel_y=False,
-                   font=font, fontsize=fontsize, linewidth=2.5, tickwidth1=2.5,
-                   tickwidth2=2, legend=True, ncol=1, locator_x = 2, locator_y = 2,
-                   title=None, axis_color=None, xpad = None, ypad = None):
+                font=font, fontsize=fontsize, linewidth=2.5, tickwidth1=2.5,
+                tickwidth2=2, legend=True, ncol=1, locator_x = 2, locator_y = 2,
+                title=None, axis_color=None, xpad = None, ypad = None):
     
     if xlabel is not None:
         ax.set_xlabel(xlabel, fontdict=font)
