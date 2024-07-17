@@ -1,3 +1,5 @@
+| view                                                                   | name                                                                    | 
+|----------------------------------------------------------------------- | ----------------------------------------------------------------------- | 
 |![xkcd:black](view/black.png)                                           | xkcd:black                                                              | 
 |![xkcd:white](view/white.png)                                           | xkcd:white                                                              | 
 |![xkcd:dull red](view/dull_red.png)                                     | xkcd:dull red                                                           | 
