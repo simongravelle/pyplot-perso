@@ -39,6 +39,29 @@ class PltTools():
                  markeredgewidth = 0,
                  n_colone = 1,
                  n_line = 1,
+                 xlabel = None,
+                 ylabel = None,
+                 cancel_x = False,
+                 cancel_y = False,
+                 font = font,
+                 fontsize = fontsize,
+                 tickwidth1 = 2.5,
+                 tickwidth2 = 2,
+                 legend = True,
+                 ncol = 1,
+                 locator_x = 2,
+                 locator_y = 2,
+                 title = None,
+                 xpad = None,
+                 ypad = None,
+                 x_boundaries=None,
+                 x_ticks=None,
+                 y_boundaries=None,
+                 y_ticks=None,
+                 git_root = None,
+                 path_figures = None,
+                 filename = None,
+                 show = True,
                  *args,
                  **kwargs
                  ):
@@ -65,11 +88,35 @@ class PltTools():
         self.type_label_panel = type_label_panel
         self.n_colone = n_colone
         self.n_line = n_line
+        self.xlabel = xlabel
+        self.ylabel = ylabel
+        self.cancel_x = cancel_x
+        self.cancel_y = cancel_y
+        font = font
+        self.fontsize = fontsize
+        self.tickwidth1 = tickwidth1
+        self.tickwidth2 = tickwidth2
+        self.legend = legend
+        self.ncol = ncol
+        self.locator_x = locator_x
+        self.locator_y = locator_y
+        self.title = title
+        self.axis_color = axis_color
+        self.xpad = xpad
+        self.ypad = ypad
+        self.x_boundaries=x_boundaries
+        self.x_ticks=x_ticks
+        self.y_boundaries=y_boundaries
+        self.y_ticks=y_ticks
+        self.git_root = git_root
+        self.path_figures = path_figures
+        self.filename = filename
+        self.show = show
+        # differenciate linewidth figure and data 
 
     def update_parameters(self, **args):    
         for arg, value in args.items():
-            if hasattr(self, arg) and value is not None:
-                setattr(self, arg, value)
+            setattr(self, arg, value)
 
     def prepare_figure(self, **args):
 
@@ -181,125 +228,104 @@ class PltTools():
             )     
 
 
-def complete_panel(ax, xlabel, ylabel, cancel_x=False, cancel_y=False,
-                font=font, fontsize=fontsize, linewidth=2.5, tickwidth1=2.5,
-                tickwidth2=2, legend=True, ncol=1, locator_x = 2, locator_y = 2,
-                title=None, axis_color=None, xpad = None, ypad = None):
-    
-    if xlabel is not None:
-        ax.set_xlabel(xlabel, fontdict=font)
-        if cancel_x:
-            ax.set_xticklabels([])
-    else:
-        ax.set_xticklabels([])
+    def complete_panel(self, **args):
+        
+        self.update_parameters(**args)
 
-    if ylabel is not None:
-        ax.set_ylabel(ylabel, fontdict=font)
-        if cancel_y:
-            ax.set_yticklabels([])  
-    else:
-        ax.set_yticklabels([])
-
-    if title is not None:
-        ax.set_title(title, fontdict=font)
-
-    plt.xticks(fontsize=fontsize)
-    plt.yticks(fontsize=fontsize)
-    ax.yaxis.offsetText.set_fontsize(20)
-    ax.minorticks_on()
-
-    ax.tick_params('both', length=10, width=tickwidth1, which='major', direction='in')
-    ax.tick_params('both', length=6, width=tickwidth2, which='minor', direction='in')
-    ax.xaxis.set_ticks_position('both')
-    ax.yaxis.set_ticks_position('both')
-
-    # border of graph
-    ax.spines["top"].set_linewidth(linewidth)
-    ax.spines["bottom"].set_linewidth(linewidth)
-    ax.spines["left"].set_linewidth(linewidth)
-    ax.spines["right"].set_linewidth(linewidth)
-
-    if locator_x is not None:
-        minor_locator_x = AutoMinorLocator(locator_x)
-        ax.xaxis.set_minor_locator(minor_locator_x)
-    if locator_y is not None:
-        minor_locator_y = AutoMinorLocator(locator_y)
-        ax.yaxis.set_minor_locator(minor_locator_y)
-
-    if legend:
-        ax.legend(frameon=False, fontsize=fontsize, labelcolor=axis_color,
-                loc='best', handletextpad=0.5, ncol=ncol,
-                handlelength = 0.86, borderpad = 0.3, 
-                labelspacing=0.3)
-                
-    if axis_color is not None:
-        ax.xaxis.label.set_color(axis_color)
-        ax.yaxis.label.set_color(axis_color)
-        ax.tick_params(axis='x', colors=axis_color)
-        ax.tick_params(axis='y', colors=axis_color)
-        ax.spines['left'].set_color(axis_color)
-        ax.spines['top'].set_color(axis_color)
-        ax.spines['bottom'].set_color(axis_color)
-        ax.spines['right'].set_color(axis_color)
-        ax.tick_params(axis='y', which='both', colors=axis_color)
-        ax.tick_params(axis='x', which='both', colors=axis_color)
-
-    if xpad is not None:
-        ax.tick_params(axis='x', colors=axis_color, pad = xpad)
-
-    if ypad is not None:
-        ax.tick_params(axis='y', colors=axis_color, pad = ypad)
-
-def save_figure(plt, fig, mode, git_root, path_figures, filename, show=False, transparency=True):
-    assert os.path.exists(git_root + path_figures)
-    fig.tight_layout()
-    if mode == 'light':
-        if transparency is False:
-            plt.style.use('default')
-        plt.savefig(git_root + path_figures + filename + "-light.png",
-                    bbox_inches = 'tight', pad_inches = 0.062,
-                    transparent=transparency, dpi=200)
-    else:
-        if transparency is False:
-            plt.style.use('default')
-        plt.savefig(git_root + path_figures + filename + "-dark.png",
-                    bbox_inches = 'tight', pad_inches = 0.062,
-                    transparent=transparency, dpi=200)
-    if show:
-        plt.show()
-
-def set_boundaries(plt, x_boundaries=None, x_ticks=None, y_boundaries=None, y_ticks=None):
-    if x_boundaries is not None:
-        plt.xlim(x_boundaries)
-    if x_ticks is not None:
-        plt.xticks(x_ticks)
-    if y_boundaries is not None:
-        plt.ylim(y_boundaries)
-    if y_ticks is not None:
-        plt.yticks(y_ticks)  
-
-def import_ave_time(filename, folder=None):
-    assert filename[:6] == "output"
-    if folder is None:
-        if os.path.exists(filename):
-            data = np.loadtxt(filename)
-            try:
-                time, data = data.T
-            except:
-                time, data, _ = data.T
-            if os.path.exists("data_plot/") is False:
-                os.mkdir("data_plot/")
-            np.savetxt("data_plot/"+filename[7:], np.vstack([time, data]).T)
+        if self.xlabel is not None:
+            self.ax[-1].set_xlabel(self.xlabel, fontdict=font)
+            if self.cancel_x:
+                self.ax[-1].set_xticklabels([])
         else:
-            time, data = np.loadtxt("data_plot/"+filename[7:]).T
-    else:
-        if os.path.exists(folder+filename):
-            data = np.loadtxt(folder+filename)
-            try:
-                time, data = data.T
-            except:
-                time, data, _ = data.T
-            if os.path.exists("data_plot/") is False:
-                os.mkdir("data_plot/")
-            np.savetxt("data_plot/"+filename[7:], np.vstack([time, data]).T)
-    return time, data
+            self.ax[-1].set_xticklabels([])
+
+        if self.ylabel is not None:
+            self.ax[-1].set_ylabel(self.ylabel, fontdict=font)
+            if self.cancel_y:
+                self.ax[-1].set_yticklabels([])  
+        else:
+            self.ax[-1].set_yticklabels([])
+
+        if self.title is not None:
+            self.ax[-1].set_title(self.title, fontdict=font)
+
+        plt.xticks(fontsize=self.fontsize)
+        plt.yticks(fontsize=self.fontsize)
+        self.ax[-1].yaxis.offsetText.set_fontsize(20)
+        self.ax[-1].minorticks_on()
+
+        self.ax[-1].tick_params('both', length=10, width=self.tickwidth1, which='major', direction='in')
+        self.ax[-1].tick_params('both', length=6, width=self.tickwidth2, which='minor', direction='in')
+        self.ax[-1].xaxis.set_ticks_position('both')
+        self.ax[-1].yaxis.set_ticks_position('both')
+
+        # border of graph
+        self.ax[-1].spines["top"].set_linewidth(self.linewidth)
+        self.ax[-1].spines["bottom"].set_linewidth(self.linewidth)
+        self.ax[-1].spines["left"].set_linewidth(self.linewidth)
+        self.ax[-1].spines["right"].set_linewidth(self.linewidth)
+
+        if self.locator_x is not None:
+            minor_locator_x = AutoMinorLocator(self.locator_x)
+            self.ax[-1].xaxis.set_minor_locator(minor_locator_x)
+        if self.locator_y is not None:
+            minor_locator_y = AutoMinorLocator(self.locator_y)
+            self.ax[-1].yaxis.set_minor_locator(minor_locator_y)
+
+        if self.legend:
+            self.ax[-1].legend(frameon=False, fontsize=fontsize, labelcolor=self.axis_color,
+                    loc='best', handletextpad=0.5, ncol=self.ncol,
+                    handlelength = 0.86, borderpad = 0.3, 
+                    labelspacing=0.3)
+                    
+        if self.axis_color is not None:
+            self.ax[-1].xaxis.label.set_color(self.axis_color)
+            self.ax[-1].yaxis.label.set_color(self.axis_color)
+            self.ax[-1].tick_params(axis='x', colors=self.axis_color)
+            self.ax[-1].tick_params(axis='y', colors=self.axis_color)
+            self.ax[-1].spines['left'].set_color(self.axis_color)
+            self.ax[-1].spines['top'].set_color(self.axis_color)
+            self.ax[-1].spines['bottom'].set_color(self.axis_color)
+            self.ax[-1].spines['right'].set_color(self.axis_color)
+            self.ax[-1].tick_params(axis='y', which='both', colors=self.axis_color)
+            self.ax[-1].tick_params(axis='x', which='both', colors=self.axis_color)
+
+        if self.xpad is not None:
+            self.ax[-1].tick_params(axis='x', colors=self.axis_color, pad = self.xpad)
+
+        if self.ypad is not None:
+            self.ax[-1].tick_params(axis='y', colors=self.axis_color, pad = self.ypad)
+
+    def set_boundaries(self, **args):
+        self.update_parameters(**args)
+        if self.x_boundaries is not None:
+            plt.xlim(self.x_boundaries)
+        if self.x_ticks is not None:
+            plt.xticks(self.x_ticks)
+        if self.y_boundaries is not None:
+            plt.ylim(self.y_boundaries)
+        if self.y_ticks is not None:
+            plt.yticks(self.y_ticks)  
+
+    def save_figure(self, **args):
+        self.update_parameters(**args)
+
+        assert os.path.exists(self.git_root + self.path_figures)
+
+        self.fig.tight_layout()
+        if self.dark_mode:
+            if self.transparency is False:
+                plt.style.use('default')
+            plt.savefig(self.git_root + self.path_figures + self.filename + "-dm.png",
+                        bbox_inches = 'tight', pad_inches = 0.062,
+                        transparent=self.transparency, dpi=200)
+            
+        else:
+            if self.transparency is False:
+                plt.style.use('default')
+            plt.savefig(self.git_root + self.path_figures + self.filename + ".png",
+                        bbox_inches = 'tight', pad_inches = 0.062,
+                        transparent=self.transparency, dpi=200)
+        if self.show:
+            plt.show()
+
