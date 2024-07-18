@@ -93,23 +93,24 @@ class PlotData(PrepareFigure):
         else:
             self.markerfacecolor = color
 
-        if self.x is not None:
+    def add_plot(self):
 
-            self.ax[-1].plot(self.x,
-                        self.y,
-                        self.marker,
-                        color = self.color,
-                        markersize = self.markersize,
-                        linewidth = self.linewidth,
-                        label = self.label,
-                        markeredgewidth = self.markeredgewidth,
-                        markeredgecolor = self.color,
-                        markerfacecolor = self.markerfacecolor)
-            
-            if (self.type == 'semilogy') | (self.type == 'loglog'):
-                self.ax[-1].set_yscale('log')
-            if (self.type == 'semilogx') | (self.type == 'loglog'):
-                self.ax[-1].set_xscale('log')
+        assert self.x is not None
+        self.ax[-1].plot(self.x,
+                    self.y,
+                    self.marker,
+                    color = self.color,
+                    markersize = self.markersize,
+                    linewidth = self.linewidth,
+                    label = self.label,
+                    markeredgewidth = self.markeredgewidth,
+                    markeredgecolor = self.color,
+                    markerfacecolor = self.markerfacecolor)
+        
+        if (self.type == 'semilogy') | (self.type == 'loglog'):
+            self.ax[-1].set_yscale('log')
+        if (self.type == 'semilogx') | (self.type == 'loglog'):
+            self.ax[-1].set_xscale('log')
 
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
