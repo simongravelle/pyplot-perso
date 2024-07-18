@@ -129,6 +129,7 @@ class PltTools():
             data_color = colorserie1[self.cpt_colors]
         else:
             data_color = self.data_color
+        print(data_color)
             
         #assert self.x is not None
         self.ax[-1].plot(self.x,

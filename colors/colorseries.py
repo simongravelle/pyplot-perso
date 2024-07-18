@@ -1,7 +1,8 @@
+import numpy as np
 
 colorserie1 = [
-    "xkcd:tealish",
+    np.array([0.267, 0.718, 0.761]), # LAMMPS tutorial homedade Cyan
     "xkcd:butterscotch",
-    "xkcd:teal blue",
     "xkcd:prussian blue",
+    "xkcd:teal blue",
 ]
