@@ -114,11 +114,11 @@ class PltTools():
 
         try:
             self.id_panel += 1
-            self.ax.append(plt.subplot(self.n_colone, self.n_line, self.id_panel))
+            self.ax.append(plt.subplot(self.n_line, self.n_colone, self.id_panel))
         except:
             self.ax = []
             self.id_panel = 1
-            self.ax.append(plt.subplot(self.n_colone, self.n_line, self.id_panel))
+            self.ax.append(plt.subplot(self.n_line, self.n_colone, self.id_panel))
         self.cpt_colors = 0
 
     def add_plot(self, **args):
@@ -129,7 +129,6 @@ class PltTools():
             data_color = colorserie1[self.cpt_colors]
         else:
             data_color = self.data_color
-        print(data_color)
             
         #assert self.x is not None
         self.ax[-1].plot(self.x,
@@ -157,8 +156,11 @@ class PltTools():
 
         if self.type_label_panel == "a":
             labels = []
-            for i in range(len(self.ax)):
-                labels.append("a") #(r"$\textrm{a}$")
+            for i, value in zip(range(len(self.ax)), list(map(chr, range(97, 123)))):
+                if self.tex_font:
+                    labels.append(r"$\textrm{a}$")
+                else:
+                    labels.append(value)
 
         for i, subplotlabel in enumerate(labels):
             if self.sshift_label_panel is None:
