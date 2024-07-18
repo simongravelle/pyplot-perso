@@ -1,6 +1,7 @@
 
 colorserie1 = [
-    "xkcd:greenish cyan",
-    "xkcd:light orange",
-    "xkcd:dark blue green"
+    "xkcd:tealish",
+    "xkcd:butterscotch",
+    "xkcd:teal blue",
+    "xkcd:prussian blue",
 ]
