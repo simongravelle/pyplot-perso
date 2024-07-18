@@ -1,8 +1,12 @@
 import os
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 from matplotlib.ticker import AutoMinorLocator
+
+sys.path.append("colors/")
+from colorseries import colorserie1
 
 fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
@@ -24,12 +28,17 @@ class PltTools():
                  type = "plot",
                  markersize = 12,
                  linewidth = 4,
-                 data_color = 'blue',
+                 data_color = None,
                  axis_color = 'black',
                  data_label = None,
                  panel_label = None,
+                 shift_label_panel = 0.2,
+                 sshift_label_panel = None,
+                 type_label_panel = "a",
                  open_symbols = False,
                  markeredgewidth = 0,
+                 n_colone = 1,
+                 n_line = 1,
                  *args,
                  **kwargs
                  ):
@@ -51,6 +60,11 @@ class PltTools():
         self.panel_label = panel_label
         self.open_symbols = open_symbols
         self.markeredgewidth = markeredgewidth
+        self.shift_label_panel = shift_label_panel
+        self.sshift_label_panel = sshift_label_panel
+        self.type_label_panel = type_label_panel
+        self.n_colone = n_colone
+        self.n_line = n_line
 
     def update_parameters(self, **args):    
         for arg, value in args.items():
@@ -86,33 +100,48 @@ class PltTools():
                     "font.serif": ["Open Sans"],
                     "text.latex.preamble" : r"\usepackage{cmbright}"
                 })
-
-        ax = []
-        ax.append(plt.subplot(2, 2, 1))
         
         self.fig = fig
-        self.ax = ax
 
         if self.open_symbols:
             self.markerfacecolor = 'none'
         else:
-            self.markerfacecolor = self.color
+            self.markerfacecolor = self.data_color
+
+    def add_panel(self, **args):
+
+        self.update_parameters(**args)
+
+        try:
+            self.id_panel += 1
+            self.ax.append(plt.subplot(self.n_colone, self.n_line, self.id_panel))
+        except:
+            self.ax = []
+            self.id_panel = 1
+            self.ax.append(plt.subplot(self.n_colone, self.n_line, self.id_panel))
+        self.cpt_colors = 0
 
     def add_plot(self, **args):
 
         self.update_parameters(**args)
 
+        if self.data_color is None:
+            data_color = colorserie1[self.cpt_colors]
+        else:
+            data_color = self.data_color
+            
         #assert self.x is not None
         self.ax[-1].plot(self.x,
                     self.y,
                     self.marker,
-                    color = self.color,
+                    color = data_color,
                     markersize = self.markersize,
                     linewidth = self.linewidth,
-                    label = self.label,
+                    label = self.data_label,
                     markeredgewidth = self.markeredgewidth,
-                    markeredgecolor = self.color,
+                    markeredgecolor = data_color,
                     markerfacecolor = self.markerfacecolor)
+        self.cpt_colors += 1
         
         if (self.type == 'semilogy') | (self.type == 'loglog'):
             self.ax[-1].set_yscale('log')
@@ -125,36 +154,28 @@ class PltTools():
 
         self.update_parameters(**args)
 
-        assert len(ax) == len(labels), """WARNING: number of labels different from the number of subplots"""
+        if self.type_label_panel == "a":
+            labels = []
+            for i in range(len(self.ax)):
+                labels.append("a") #(r"$\textrm{a}$")
 
         for i, subplotlabel in enumerate(labels):
-            if specific_shift is None:
+            if self.sshift_label_panel is None:
                 trans = mtransforms.ScaledTranslation(
-                    shift, -0.2, fig.dpi_scale_trans)
+                    self.shift_label_panel, -0.2, self.fig.dpi_scale_trans)
             else:
                 trans = mtransforms.ScaledTranslation(
-                    specific_shift[i], 0, fig.dpi_scale_trans) 
-            if color is None:
-                ax[i].text(
-                    0.0,
-                    1.0,
-                    subplotlabel,
-                    transform=ax[i].transAxes + trans,
-                    va="top",
-                    #bbox=dict(facecolor="white", alpha=0.5, edgecolor="none", pad=3.0),
-                    fontdict = font,
-                )
-            else:
-                ax[i].text(
-                    0.0,
-                    1.0,
-                    subplotlabel,
-                    transform=ax[i].transAxes + trans,
-                    va="top",
-                    #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
-                    fontdict = font,
-                    color=color
-                )     
+                    self.sshift_label_panel[i], 0, self.fig.dpi_scale_trans) 
+            self.ax[i].text(
+                0.0,
+                1.0,
+                subplotlabel,
+                transform=self.ax[i].transAxes + trans,
+                va="top",
+                #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
+                fontdict = font,
+                color=self.axis_color
+            )     
 
 
 def complete_panel(ax, xlabel, ylabel, cancel_x=False, cancel_y=False,
