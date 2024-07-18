@@ -7,8 +7,8 @@ from matplotlib.ticker import AutoMinorLocator
 fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
 
-class PrepareFigure():
-    """Prepare the figure.
+class PltTools():
+    """
     fig_size must be chosen as a tuple, e.g. (18,6)
     If dark_mode, then a dark background is set.
     """
@@ -18,6 +18,18 @@ class PrepareFigure():
                  transparency = False,
                  use_serif = True,
                  tex_font = True,
+                 x = None,
+                 y = None,
+                 marker = None,
+                 type = "plot",
+                 markersize = 12,
+                 linewidth = 4,
+                 data_color = 'blue',
+                 axis_color = 'black',
+                 data_label = None,
+                 panel_label = None,
+                 open_symbols = False,
+                 markeredgewidth = 0,
                  *args,
                  **kwargs
                  ):
@@ -27,10 +39,28 @@ class PrepareFigure():
         self.transparency = transparency
         self.use_serif = use_serif
         self.tex_font = tex_font
+        self.x = x
+        self.y = y
+        self.type = type
+        self.marker = marker
+        self.markersize = markersize
+        self.linewidth = linewidth
+        self.data_color = data_color
+        self.axis_color = axis_color
+        self.data_label = data_label
+        self.panel_label = panel_label
+        self.open_symbols = open_symbols
+        self.markeredgewidth = markeredgewidth
 
-        self.prepare_figure()
+    def update_parameters(self, **args):    
+        for arg, value in args.items():
+            if hasattr(self, arg) and value is not None:
+                setattr(self, arg, value)
 
-    def prepare_figure(self):
+    def prepare_figure(self, **args):
+
+        self.update_parameters(**args)
+
         # set the right background
         if self.transparency is False:
             if self.dark_mode:
@@ -63,39 +93,16 @@ class PrepareFigure():
         self.fig = fig
         self.ax = ax
 
-class PlotData(PrepareFigure):
-    def __init__(self,
-                 x = None,
-                 y = None,
-                 marker = None,
-                 markersize = 12,
-                 linewidth = 4,
-                 color = 'blue',
-                 label = None,
-                 open_symbols = False,
-                 markeredgewidth = 0,
-                 *args,
-                 **kwargs
-                 ):
-        super().__init__(*args, **kwargs)
-        self.x = x
-        self.y = y
-        self.marker = marker
-        self.markersize = markersize
-        self.linewidth = linewidth
-        self.color = color
-        self.label = label
-        self.open_symbols = open_symbols
-        self.markeredgewidth = markeredgewidth
-        
         if self.open_symbols:
             self.markerfacecolor = 'none'
         else:
-            self.markerfacecolor = color
+            self.markerfacecolor = self.color
 
-    def add_plot(self):
+    def add_plot(self, **args):
 
-        assert self.x is not None
+        self.update_parameters(**args)
+
+        #assert self.x is not None
         self.ax[-1].plot(self.x,
                     self.y,
                     self.marker,
@@ -112,39 +119,42 @@ class PlotData(PrepareFigure):
         if (self.type == 'semilogx') | (self.type == 'loglog'):
             self.ax[-1].set_xscale('log')
 
+    def add_subplotlabels(self, **args):
 
-def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
-    """Add a labels to each axis of a figure."""
-    assert len(ax) == len(labels), """WARNING: number of labels different from the number of subplots"""
+        """Add a labels to each axis of a figure."""
 
-    for i, subplotlabel in enumerate(labels):
-        if specific_shift is None:
-            trans = mtransforms.ScaledTranslation(
-                shift, -0.2, fig.dpi_scale_trans)
-        else:
-            trans = mtransforms.ScaledTranslation(
-                specific_shift[i], 0, fig.dpi_scale_trans) 
-        if color is None:
-            ax[i].text(
-                0.0,
-                1.0,
-                subplotlabel,
-                transform=ax[i].transAxes + trans,
-                va="top",
-                #bbox=dict(facecolor="white", alpha=0.5, edgecolor="none", pad=3.0),
-                fontdict = font,
-            )
-        else:
-            ax[i].text(
-                0.0,
-                1.0,
-                subplotlabel,
-                transform=ax[i].transAxes + trans,
-                va="top",
-                #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
-                fontdict = font,
-                color=color
-            )     
+        self.update_parameters(**args)
+
+        assert len(ax) == len(labels), """WARNING: number of labels different from the number of subplots"""
+
+        for i, subplotlabel in enumerate(labels):
+            if specific_shift is None:
+                trans = mtransforms.ScaledTranslation(
+                    shift, -0.2, fig.dpi_scale_trans)
+            else:
+                trans = mtransforms.ScaledTranslation(
+                    specific_shift[i], 0, fig.dpi_scale_trans) 
+            if color is None:
+                ax[i].text(
+                    0.0,
+                    1.0,
+                    subplotlabel,
+                    transform=ax[i].transAxes + trans,
+                    va="top",
+                    #bbox=dict(facecolor="white", alpha=0.5, edgecolor="none", pad=3.0),
+                    fontdict = font,
+                )
+            else:
+                ax[i].text(
+                    0.0,
+                    1.0,
+                    subplotlabel,
+                    transform=ax[i].transAxes + trans,
+                    va="top",
+                    #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
+                    fontdict = font,
+                    color=color
+                )     
 
 
 def complete_panel(ax, xlabel, ylabel, cancel_x=False, cancel_y=False,
