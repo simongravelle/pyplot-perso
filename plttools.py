@@ -327,13 +327,15 @@ class PltTools():
             self.ax[-1].yaxis.set_minor_locator(minor_locator_y)
 
         if self.legend:
-            try:
+            if not self.ax[-1].get_legend_handles_labels() == ([], []):
+                labels_in_fig = True
+            else:
+                labels_in_fig = False
+            if labels_in_fig:
                 self.ax[-1].legend(frameon=False, fontsize=fontsize, labelcolor=self.axis_color,
                         loc='best', handletextpad=0.5, ncol=self.ncol,
                         handlelength = 0.86, borderpad = 0.3, 
                         labelspacing=0.3)
-            except:
-                pass
                     
         if self.axis_color is not None:
             self.ax[-1].xaxis.label.set_color(self.axis_color)
