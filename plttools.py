@@ -8,9 +8,6 @@ from matplotlib.ticker import AutoMinorLocator
 sys.path.append("colors/")
 from colorseries import colorserie1
 
-fontsize = 34
-font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
-
 class PltTools():
     """
     fig_size must be chosen as a tuple, e.g. (18,6)
@@ -43,18 +40,17 @@ class PltTools():
                  ylabel = None,
                  cancel_x = False,
                  cancel_y = False,
-                 font = font,
-                 fontsize = fontsize,
+                 fontsize = 'default',
                  tickwidth1 = 2.5,
                  tickwidth2 = 2,
                  legend = True,
-                 ncol = 1,
+                 ncol_legend = 1,
                  locator_x = 'auto',
                  locator_y = 'auto',
                  panel_title = None,
                  panel_linewidth = 4,
-                 xpad = None,
-                 ypad = None,
+                 xpad = 10,
+                 ypad = 6,
                  x_boundaries=None,
                  x_ticks=None,
                  y_boundaries=None,
@@ -93,12 +89,11 @@ class PltTools():
         self.ylabel = ylabel
         self.cancel_x = cancel_x
         self.cancel_y = cancel_y
-        font = font
         self.fontsize = fontsize
         self.tickwidth1 = tickwidth1
         self.tickwidth2 = tickwidth2
         self.legend = legend
-        self.ncol = ncol
+        self.ncol_legend = ncol_legend
         self.locator_x = locator_x
         self.locator_y = locator_y
         self.panel_title = panel_title
@@ -114,6 +109,13 @@ class PltTools():
         self.path_figures = path_figures
         self.filename = filename
         self.show = show
+
+        if self.fontsize == 'default':
+            self.fontsize = 34
+            self.font = {'family': 'sans',
+                         'color':  'black',
+                         'weight': 'normal',
+                         'size': self.fontsize}
 
     def update_parameters(self, **args):    
         for arg, value in args.items():
@@ -151,11 +153,6 @@ class PltTools():
         
         self.fig = fig
 
-        if self.open_symbols:
-            self.markerfacecolor = 'none'
-        else:
-            self.markerfacecolor = self.data_color
-
     def add_panel(self, **args):
 
         self.update_parameters(**args)
@@ -173,6 +170,15 @@ class PltTools():
 
         self.update_parameters(**args)
 
+        # In case of open symbol choice
+        if self.open_symbols:
+            self.markerfacecolor = 'none'
+            if self.markeredgewidth == 0:
+                self.markeredgewidth = 3
+        else:
+            self.markerfacecolor = self.data_color
+
+        # Pick color automatically
         if self.data_color is None:
             data_color = colorserie1[self.cpt_colors]
         else:
@@ -190,7 +196,8 @@ class PltTools():
                     markeredgecolor = data_color,
                     markerfacecolor = self.markerfacecolor)
         self.cpt_colors += 1
-        
+
+        # Convert the axis to log        
         if (self.type == 'semilogy') | (self.type == 'loglog'):
             self.ax[-1].set_yscale('log')
         if (self.type == 'semilogx') | (self.type == 'loglog'):
@@ -253,7 +260,7 @@ class PltTools():
                     transform=self.ax[i].transAxes + trans,
                     va="top",
                     #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
-                    fontdict = font,
+                    fontdict = self.font,
                     color=self.axis_color
                 )     
 
@@ -263,14 +270,14 @@ class PltTools():
         self.update_parameters(**args)
         # Write label along x
         if self.xlabel is not None:
-            self.ax[-1].set_xlabel(self.xlabel, fontdict=font)
+            self.ax[-1].set_xlabel(self.xlabel, fontdict=self.font)
             if self.cancel_x:
                 self.ax[-1].set_xticklabels([])
         else:
             self.ax[-1].set_xticklabels([])
         # Write label along y
         if self.ylabel is not None:
-            self.ax[-1].set_ylabel(self.ylabel, fontdict=font)
+            self.ax[-1].set_ylabel(self.ylabel, fontdict=self.font)
             if self.cancel_y:
                 self.ax[-1].set_yticklabels([])  
         else:
@@ -278,7 +285,7 @@ class PltTools():
         # Write panel title
         if self.panel_title is not None:
             self.ax[-1].set_title(self.panel_title,
-                                  fontdict=font)
+                                  fontdict=self.font)
 
         plt.xticks(fontsize=self.fontsize)
         plt.yticks(fontsize=self.fontsize)
@@ -296,7 +303,7 @@ class PltTools():
         self.ax[-1].xaxis.set_ticks_position('both')
         self.ax[-1].yaxis.set_ticks_position('both')
 
-        # Use the right linewidth for the graph border
+        # Apply linewidth to graph border
         for border in ["top", "bottom", "left", "right"]:
             self.ax[-1].spines[border].set_linewidth(self.panel_linewidth)
 
@@ -332,28 +339,30 @@ class PltTools():
             else:
                 labels_in_fig = False
             if labels_in_fig:
-                self.ax[-1].legend(frameon=False, fontsize=fontsize, labelcolor=self.axis_color,
-                        loc='best', handletextpad=0.5, ncol=self.ncol,
-                        handlelength = 0.86, borderpad = 0.3, 
-                        labelspacing=0.3)
+                self.ax[-1].legend(frameon=False, fontsize=self.fontsize,
+                                   labelcolor=self.axis_color, loc='best',
+                                   handletextpad=0.5, ncol=self.ncol_legend,
+                                   handlelength = 0.86, borderpad = 0.3, 
+                                   labelspacing=0.3)
                     
+        # color the axis if requested
         if self.axis_color is not None:
             self.ax[-1].xaxis.label.set_color(self.axis_color)
             self.ax[-1].yaxis.label.set_color(self.axis_color)
-            self.ax[-1].tick_params(axis='x', colors=self.axis_color)
-            self.ax[-1].tick_params(axis='y', colors=self.axis_color)
-            self.ax[-1].spines['left'].set_color(self.axis_color)
-            self.ax[-1].spines['top'].set_color(self.axis_color)
-            self.ax[-1].spines['bottom'].set_color(self.axis_color)
-            self.ax[-1].spines['right'].set_color(self.axis_color)
-            self.ax[-1].tick_params(axis='y', which='both', colors=self.axis_color)
-            self.ax[-1].tick_params(axis='x', which='both', colors=self.axis_color)
-
+            for axis in ["x", "y"]:
+                self.ax[-1].tick_params(axis=axis, colors=self.axis_color)
+                self.ax[-1].tick_params(axis=axis, which='both', colors=self.axis_color)
+            for border in ["top", "bottom", "left", "right"]:
+                self.ax[-1].spines[border].set_color(self.axis_color)
+    
         if self.xpad is not None:
-            self.ax[-1].tick_params(axis='x', colors=self.axis_color, pad = self.xpad)
-
+            self.ax[-1].tick_params(axis='x',
+                                    colors=self.axis_color,
+                                    pad = self.xpad)
         if self.ypad is not None:
-            self.ax[-1].tick_params(axis='y', colors=self.axis_color, pad = self.ypad)
+            self.ax[-1].tick_params(axis='y',
+                                    colors=self.axis_color,
+                                    pad = self.ypad)
 
     def set_boundaries(self, **args):
         self.update_parameters(**args)
