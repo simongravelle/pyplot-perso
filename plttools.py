@@ -196,36 +196,65 @@ class PltTools():
             self.ax[-1].set_xscale('log')
 
     def add_subplotlabels(self, **args):
-
-        """Add a labels to each axis of a figure."""
-
+        """Add a labels to each axis of a figure.
+        Four options:
+        - For small letters, use type_label_panel='a'
+        - For large letters, use type_label_panel='A'
+        - Deactivate using type_label_panel=None
+        - Provide a list of special character instead. The list must be the size of 'ax' 
+        """
         self.update_parameters(**args)
-
-        if self.type_label_panel == "a":
-            labels = []
-            for i, value in zip(range(len(self.ax)), list(map(chr, range(97, 123)))):
-                if self.tex_font:
-                    labels.append(r"$\textrm{a}$")
-                else:
-                    labels.append(value)
-
-        for i, subplotlabel in enumerate(labels):
-            if self.sshift_label_panel is None:
-                trans = mtransforms.ScaledTranslation(
-                    self.shift_label_panel, -0.2, self.fig.dpi_scale_trans)
+        if self.type_label_panel is not None:
+            if self.type_label_panel == "a":
+                labels = []
+                for i, value in zip(range(len(self.ax)),
+                                    list(map(chr, range(97, 123)))):
+                    if self.tex_font:
+                        labels.append(r"$\textrm{a}$")
+                    else:
+                        labels.append(value)
+            elif self.type_label_panel == "A":
+                labels = []
+                for i, value in zip(range(len(self.ax)),
+                                    list(map(chr, range(65, 91)))):
+                    if self.tex_font:
+                        labels.append(r"$\textrm{A}$")
+                    else:
+                        labels.append(value)
+            elif len(self.type_label_panel) >= 1:
+                if len(self.type_label_panel) == len(self.ax):
+                    labels = []
+                    for value in self.type_label_panel:
+                        labels.append(value)
+                else: 
+                    print("Inconsistent type_label_panel provided." \
+                            "Parameter Ignored.")
+                    labels = None
             else:
-                trans = mtransforms.ScaledTranslation(
-                    self.sshift_label_panel[i], 0, self.fig.dpi_scale_trans) 
-            self.ax[i].text(
-                0.0,
-                1.0,
-                subplotlabel,
-                transform=self.ax[i].transAxes + trans,
-                va="top",
-                #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
-                fontdict = font,
-                color=self.axis_color
-            )     
+                labels = None
+        else:
+            labels = None
+
+        if labels is not None:
+            for i, subplotlabel in enumerate(labels):
+                if self.sshift_label_panel is None:
+                    trans = mtransforms.ScaledTranslation(
+                        self.shift_label_panel, -0.2,
+                        self.fig.dpi_scale_trans)
+                else:
+                    trans = mtransforms.ScaledTranslation(
+                        self.sshift_label_panel[i], 0,
+                        self.fig.dpi_scale_trans) 
+                self.ax[i].text(
+                    0.0,
+                    1.0,
+                    subplotlabel,
+                    transform=self.ax[i].transAxes + trans,
+                    va="top",
+                    #bbox=dict(facecolor="none", alpha=0.5, edgecolor="none", pad=3.0),
+                    fontdict = font,
+                    color=self.axis_color
+                )     
 
 
     def complete_panel(self, **args):
