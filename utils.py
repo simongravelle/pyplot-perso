@@ -26,3 +26,13 @@ def import_ave_time(filename, folder=None):
                 os.mkdir("data_plot/")
             np.savetxt("data_plot/"+filename[7:], np.vstack([time, data]).T)
     return time, data
+
+def random_lin_generator(xmin=0, xmax=10, slope=0.3, alpha=0.1, pref = 1, N = 50):
+    x = np.linspace(xmin, xmax, N)
+    y = slope*x + pref * (np.random.random(len(x))-0.5)*x**alpha
+    return x, y
+
+def random_log_generator(xmin=0, xmax=10, slope=0.3, alpha=0.1, pref = 1, N = 50):
+    x = np.logspace(xmin, xmax, N)
+    y = slope*x + pref * (np.random.random(len(x))-0.5)*x**alpha
+    return x, y

@@ -27,7 +27,7 @@ class PltTools():
                  marker = None,
                  type = "plot",
                  markersize = 12,
-                 linewidth = 4,
+                 data_linewidth = 4,
                  data_color = None,
                  axis_color = 'black',
                  data_label = None,
@@ -49,9 +49,10 @@ class PltTools():
                  tickwidth2 = 2,
                  legend = True,
                  ncol = 1,
-                 locator_x = 2,
-                 locator_y = 2,
-                 title = None,
+                 locator_x = 'auto',
+                 locator_y = 'auto',
+                 panel_title = None,
+                 panel_linewidth = 4,
                  xpad = None,
                  ypad = None,
                  x_boundaries=None,
@@ -76,7 +77,7 @@ class PltTools():
         self.type = type
         self.marker = marker
         self.markersize = markersize
-        self.linewidth = linewidth
+        self.data_linewidth = data_linewidth
         self.data_color = data_color
         self.axis_color = axis_color
         self.data_label = data_label
@@ -100,7 +101,8 @@ class PltTools():
         self.ncol = ncol
         self.locator_x = locator_x
         self.locator_y = locator_y
-        self.title = title
+        self.panel_title = panel_title
+        self.panel_linewidth = panel_linewidth
         self.axis_color = axis_color
         self.xpad = xpad
         self.ypad = ypad
@@ -112,7 +114,6 @@ class PltTools():
         self.path_figures = path_figures
         self.filename = filename
         self.show = show
-        # differenciate linewidth figure and data 
 
     def update_parameters(self, **args):    
         for arg, value in args.items():
@@ -183,7 +184,7 @@ class PltTools():
                     self.marker,
                     color = data_color,
                     markersize = self.markersize,
-                    linewidth = self.linewidth,
+                    linewidth = self.data_linewidth,
                     label = self.data_label,
                     markeredgewidth = self.markeredgewidth,
                     markeredgecolor = data_color,
@@ -260,52 +261,79 @@ class PltTools():
     def complete_panel(self, **args):
         
         self.update_parameters(**args)
-
+        # Write label along x
         if self.xlabel is not None:
             self.ax[-1].set_xlabel(self.xlabel, fontdict=font)
             if self.cancel_x:
                 self.ax[-1].set_xticklabels([])
         else:
             self.ax[-1].set_xticklabels([])
-
+        # Write label along y
         if self.ylabel is not None:
             self.ax[-1].set_ylabel(self.ylabel, fontdict=font)
             if self.cancel_y:
                 self.ax[-1].set_yticklabels([])  
         else:
             self.ax[-1].set_yticklabels([])
-
-        if self.title is not None:
-            self.ax[-1].set_title(self.title, fontdict=font)
+        # Write panel title
+        if self.panel_title is not None:
+            self.ax[-1].set_title(self.panel_title,
+                                  fontdict=font)
 
         plt.xticks(fontsize=self.fontsize)
         plt.yticks(fontsize=self.fontsize)
-        self.ax[-1].yaxis.offsetText.set_fontsize(20)
+        self.ax[-1].yaxis.offsetText.set_fontsize(self.fontsize)
         self.ax[-1].minorticks_on()
 
-        self.ax[-1].tick_params('both', length=10, width=self.tickwidth1, which='major', direction='in')
-        self.ax[-1].tick_params('both', length=6, width=self.tickwidth2, which='minor', direction='in')
+        # Place tick (only in is implemented, and length is enforced)
+        # Could be changed in the futur
+        self.ax[-1].tick_params('both', length=10,
+                                width=self.tickwidth1,
+                                which='major', direction='in')
+        self.ax[-1].tick_params('both', length=6,
+                                width=self.tickwidth2,
+                                which='minor', direction='in')
         self.ax[-1].xaxis.set_ticks_position('both')
         self.ax[-1].yaxis.set_ticks_position('both')
 
-        # border of graph
-        self.ax[-1].spines["top"].set_linewidth(self.linewidth)
-        self.ax[-1].spines["bottom"].set_linewidth(self.linewidth)
-        self.ax[-1].spines["left"].set_linewidth(self.linewidth)
-        self.ax[-1].spines["right"].set_linewidth(self.linewidth)
+        # Use the right linewidth for the graph border
+        for border in ["top", "bottom", "left", "right"]:
+            self.ax[-1].spines[border].set_linewidth(self.panel_linewidth)
 
-        if self.locator_x is not None:
-            minor_locator_x = AutoMinorLocator(self.locator_x)
+        # Estimate the right number of minor tick
+        if self.locator_x == 'auto':
+            scale = self.ax[-1].xaxis.get_scale()
+            if scale == 'linear':
+                locator_x = 2
+            else:
+                locator_x = None
+        else:
+            locator_x = self.locator_x
+        #elif 
+        if self.locator_y == 'auto':
+            scale = self.ax[-1].yaxis.get_scale()
+            if scale == 'linear':
+                locator_y = 2
+            else:
+                locator_y = None   
+        else:
+            locator_y = self.locator_y   
+        # Apply minor tick position
+        if locator_x is not None:
+            minor_locator_x = AutoMinorLocator(locator_x)
             self.ax[-1].xaxis.set_minor_locator(minor_locator_x)
-        if self.locator_y is not None:
-            minor_locator_y = AutoMinorLocator(self.locator_y)
+        if locator_y is not None:
+            minor_locator_y = AutoMinorLocator(locator_y)
             self.ax[-1].yaxis.set_minor_locator(minor_locator_y)
 
         if self.legend:
-            self.ax[-1].legend(frameon=False, fontsize=fontsize, labelcolor=self.axis_color,
-                    loc='best', handletextpad=0.5, ncol=self.ncol,
-                    handlelength = 0.86, borderpad = 0.3, 
-                    labelspacing=0.3)
+            try:
+                self.ax[-1].legend(frameon=False, fontsize=fontsize, labelcolor=self.axis_color,
+                        loc='best', handletextpad=0.5, ncol=self.ncol,
+                        handlelength = 0.86, borderpad = 0.3, 
+                        labelspacing=0.3)
+            except:
+                pass
                     
         if self.axis_color is not None:
             self.ax[-1].xaxis.label.set_color(self.axis_color)
