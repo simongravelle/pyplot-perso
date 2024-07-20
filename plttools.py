@@ -190,19 +190,22 @@ class PltTools():
 
         self.update_parameters(**args)
 
+
+        # Pick color automatically
+        if self.data_color is None:
+            data_color = colorserie1[self.cpt_colors]
+        elif isinstance(self.data_color, int):
+            data_color = colorserie1[self.data_color]
+        else:
+            data_color = self.data_color
+
         # In case of open symbol choice
         if self.open_symbols:
             self.markerfacecolor = 'none'
             if self.markeredgewidth == 0:
                 self.markeredgewidth = 3
         else:
-            self.markerfacecolor = self.data_color
-
-        # Pick color automatically
-        if self.data_color is None:
-            data_color = colorserie1[self.cpt_colors]
-        else:
-            data_color = self.data_color
+            self.markerfacecolor = data_color
             
         #assert self.x is not None
         self.ax[-1].plot(self.x,
