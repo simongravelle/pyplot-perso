@@ -2,6 +2,7 @@ import os
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 import matplotlib.transforms as mtransforms
 from matplotlib.ticker import AutoMinorLocator
 
@@ -19,6 +20,7 @@ class PltTools():
                  transparency = False,
                  use_serif = True,
                  tex_font = True,
+                 panel_position = None,
                  x = None,
                  y = None,
                  marker = None,
@@ -48,7 +50,7 @@ class PltTools():
                  locator_x = 'auto',
                  locator_y = 'auto',
                  panel_title = None,
-                 panel_linewidth = 4,
+                 panel_linewidth = 2.5,
                  xpad = 10,
                  ypad = 6,
                  x_boundaries=None,
@@ -70,6 +72,7 @@ class PltTools():
         self.tex_font = tex_font
         self.x = x
         self.y = y
+        self.panel_position = panel_position
         self.type = type
         self.marker = marker
         self.markersize = markersize
@@ -132,6 +135,7 @@ class PltTools():
             else:
                 plt.style.use('default')
         # set the figure size
+        self.gs = gridspec.GridSpec(2, 2)
         fig = plt.figure(figsize=self.fig_size)
         # choose the font
         if self.tex_font:
@@ -154,16 +158,32 @@ class PltTools():
         self.fig = fig
 
     def add_panel(self, **args):
-
         self.update_parameters(**args)
-
         try:
             self.id_panel += 1
-            self.ax.append(plt.subplot(self.n_line, self.n_colone, self.id_panel))
+            if self.panel_position is None:
+                self.ax.append(plt.subplot(self.n_line, self.n_colone, self.id_panel))
+            else:
+                i, j = self.panel_position
+                if i is None:
+                    self.ax.append(plt.subplot(self.gs[:, j]))
+                elif j is None:
+                    self.ax.append(plt.subplot(self.gs[i, :]))
+                else:
+                    self.ax.append(plt.subplot(self.gs[i, j]))
         except:
             self.ax = []
             self.id_panel = 1
-            self.ax.append(plt.subplot(self.n_line, self.n_colone, self.id_panel))
+            if self.panel_position is None:
+                self.ax.append(plt.subplot(self.n_line, self.n_colone, self.id_panel))
+            else:
+                i, j = self.panel_position
+                if i is None:
+                    self.ax.append(plt.subplot(self.gs[:, j]))
+                elif j is None:
+                    self.ax.append(plt.subplot(self.gs[i, :]))
+                else:
+                    self.ax.append(plt.subplot(self.gs[i, j]))
         self.cpt_colors = 0
 
     def add_plot(self, **args):
@@ -226,7 +246,7 @@ class PltTools():
                 for i, value in zip(range(len(self.ax)),
                                     list(map(chr, range(65, 91)))):
                     if self.tex_font:
-                        labels.append(r"$\textrm{A}$")
+                        labels.append(r"$\textrm{"+str(value)+"}$")
                     else:
                         labels.append(value)
             elif len(self.type_label_panel) >= 1:
