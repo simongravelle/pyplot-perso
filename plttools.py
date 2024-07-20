@@ -218,7 +218,7 @@ class PltTools():
                 for i, value in zip(range(len(self.ax)),
                                     list(map(chr, range(97, 123)))):
                     if self.tex_font:
-                        labels.append(r"$\textrm{a}$")
+                        labels.append(r"$\textrm{"+str(value)+"}$")
                     else:
                         labels.append(value)
             elif self.type_label_panel == "A":
