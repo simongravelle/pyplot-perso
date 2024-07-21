@@ -7,9 +7,9 @@ My own Python class for making [Pyplot](https://matplotlib.org/3.5.3/api/_as_gen
 
 ### Simple bi-panel figure
 
-![illustration](examples/bi-panel.png#gh-light-mode-only)
+![illustration](exemples/bi-panel.png#gh-light-mode-only)
 
-![illustration](examples/bi-panel-dm.png#gh-dark-mode-only)
+![illustration](exemples/bi-panel-dm.png#gh-dark-mode-only)
 
 The Python code to generate the figure:
 
