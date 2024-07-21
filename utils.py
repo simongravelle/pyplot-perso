@@ -32,6 +32,12 @@ def random_lin_generator(xmin=0, xmax=10, slope=0.3, alpha=0.1, pref = 1, N = 50
     y = slope*x + pref * (np.random.random(len(x))-0.5)*x**alpha
     return x, y
 
+def multivariate_normal_distribution(meanx, meany, s1 = [0, 0], s2= [0, 0], N = 50):
+    """Call the multivariate normal distribution of NumPy"""
+    cov = np.array([s1, s2])
+    pts = np.random.multivariate_normal([meanx, meany], cov, size=N)
+    return pts[:,0], pts[:,1]
+
 def random_log_generator(xmin=0, xmax=10, slope=0.3, alpha=0.1, pref = 1, N = 50):
     x = np.logspace(xmin, xmax, N)
     y = slope*x + pref * (np.random.random(len(x))-0.5)*x**alpha
