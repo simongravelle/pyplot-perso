@@ -32,11 +32,11 @@ The Python code to generate the figure:
     # Panel 2
     myplt.add_panel(type = 'loglog', panel_position = [0, 1])
     myplt.add_plot(x = x4, y = y4, marker = "o", data_color = 0,
-                   markersize = 16, data_label = None, open_symbols = False)
+                   markersize = 16)
     myplt.add_plot(x = x5, y = y5, marker = "p", data_color = 0,
-                   markersize = 16, data_label = None, open_symbols = False)
+                   markersize = 16)
     myplt.add_plot(x = x6, y = y6, marker = "^", data_color = 0,
-                   markersize = 16, data_label = None, open_symbols = False)
+                   markersize = 16)
     myplt.complete_panel(xlabel = r"$E ~ \textrm{[J]}$", ylabel = r"$N_\textrm{p} ~ [0]$",
                          panel_title = r"$\textrm{Population size vs energy}$", xpad = 10)
     myplt.set_boundaries(x_boundaries = (0.01, 1000), y_boundaries = (0.01, 1000))
