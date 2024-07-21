@@ -45,7 +45,7 @@ The Python code to generate the figure:
     myplt.save_figure(filename = "bi-panel", saving_path = 'examples/', show = False)
 ```
 
-See also the [examples](examples.ipynb) Notebook.
+See also the [examples](exemples/exemples.ipynb) Notebook.
 
 ## Light mode vs dark mode
 
