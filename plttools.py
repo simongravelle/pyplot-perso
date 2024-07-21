@@ -7,7 +7,7 @@ import matplotlib.transforms as mtransforms
 from matplotlib.ticker import AutoMinorLocator
 
 sys.path.append("colors/")
-from colorseries import colorserie1
+from colorseries import colorserie1, gray_for_dm, gray_for_lm
 
 class PltTools():
     """
@@ -28,7 +28,7 @@ class PltTools():
                  markersize = 12,
                  data_linewidth = 4,
                  data_color = None,
-                 axis_color = 'black',
+                 axis_color = None,
                  data_label = None,
                  panel_label = None,
                  shift_label_panel = 0.2,
@@ -57,10 +57,8 @@ class PltTools():
                  x_ticks=None,
                  y_boundaries=None,
                  y_ticks=None,
-                 git_root = None,
-                 path_figures = None,
+                 saving_path = None,
                  filename = None,
-                 show = True,
                  *args,
                  **kwargs
                  ):
@@ -101,17 +99,14 @@ class PltTools():
         self.locator_y = locator_y
         self.panel_title = panel_title
         self.panel_linewidth = panel_linewidth
-        self.axis_color = axis_color
         self.xpad = xpad
         self.ypad = ypad
         self.x_boundaries=x_boundaries
         self.x_ticks=x_ticks
         self.y_boundaries=y_boundaries
         self.y_ticks=y_ticks
-        self.git_root = git_root
-        self.path_figures = path_figures
+        self.saving_path = saving_path
         self.filename = filename
-        self.show = show
 
         if self.fontsize == 'default':
             self.fontsize = 34
@@ -119,10 +114,17 @@ class PltTools():
                          'color':  'black',
                          'weight': 'normal',
                          'size': self.fontsize}
+        
 
     def update_parameters(self, **args):    
         for arg, value in args.items():
             setattr(self, arg, value)
+        
+        if self.axis_color is None:
+            if self.dark_mode:
+                self.axis_color = gray_for_dm
+            else:
+                self.axis_color = gray_for_lm
 
     def prepare_figure(self, **args):
 
@@ -312,7 +314,9 @@ class PltTools():
         # Write panel title
         if self.panel_title is not None:
             self.ax[-1].set_title(self.panel_title,
-                                  fontdict=self.font)
+                                  fontdict=self.font,
+                                  color=self.axis_color,
+                                  y=1.02)
 
         plt.xticks(fontsize=self.fontsize)
         plt.yticks(fontsize=self.fontsize)
@@ -405,22 +409,22 @@ class PltTools():
     def save_figure(self, **args):
         self.update_parameters(**args)
 
-        assert os.path.exists(self.git_root + self.path_figures)
+        if self.saving_path is not None:
+            assert os.path.exists(self.saving_path)
+            saving_path = self.saving_path
+            if saving_path[-1] != "/":
+                saving_path = saving_path + "/"
+        else:
+            saving_path = "./"
 
         self.fig.tight_layout()
+        if self.transparency is False:
+            plt.style.use('default')
         if self.dark_mode:
-            if self.transparency is False:
-                plt.style.use('default')
-            plt.savefig(self.git_root + self.path_figures + self.filename + "-dm.png",
+            plt.savefig(saving_path + self.filename + "-dm.png",
                         bbox_inches = 'tight', pad_inches = 0.062,
                         transparent=self.transparency, dpi=200)
-            
         else:
-            if self.transparency is False:
-                plt.style.use('default')
-            plt.savefig(self.git_root + self.path_figures + self.filename + ".png",
+            plt.savefig(saving_path + self.filename + ".png",
                         bbox_inches = 'tight', pad_inches = 0.062,
                         transparent=self.transparency, dpi=200)
-        if self.show:
-            plt.show()
-

@@ -6,3 +6,6 @@ colorserie1 = [
     "xkcd:prussian blue",
     "xkcd:teal blue",
 ]
+
+gray_for_dm = np.array([0.9, 0.9, 0.9])
+gray_for_lm = np.array([0.1, 0.1, 0.1])
