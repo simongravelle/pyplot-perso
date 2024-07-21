@@ -7,32 +7,74 @@ from matplotlib.ticker import AutoMinorLocator
 fontsize = 34
 font = {'family': 'sans', 'color':  'black', 'weight': 'normal', 'size': fontsize}
 
-
-def prepare_figure(mode, transparency = False, desired_figsize=(18,6), serif=True):
-    if transparency is False:
-        if mode == 'dark':
-            plt.style.use('dark_background')
-        elif mode == 'light':
-            plt.style.use('default')
-        else:
-            print("WARNING: unknown choice of mode")
-    fig = plt.figure(figsize=desired_figsize)
-
-    if serif:
-        # For latex-type font
-        plt.rcParams.update({
-            "text.usetex": True,
-            "font.family": "serif",
-            "font.serif": ["Palatino"],
-        }) 
+def plot_xy(ax,
+            x,
+            y,
+            marker,
+            type = 'plot',
+            markersize = 12,
+            linewidth = 4,
+            color = 'blue',
+            label = None,
+            open_symbols = False):
+    
+    if open_symbols:
+        markeredgewidth = 3
+        markerfacecolor = 'none'
     else:
-        # For latex-type font
-        plt.rcParams.update({
-            "text.usetex": True,
-            "font.family": "sans-serif",
-            "font.serif": ["Open Sans"],
-            "text.latex.preamble" : r"\usepackage{cmbright}"
-        })
+        markeredgewidth = 0
+        markerfacecolor = color
+
+    ax[-1].plot(x,
+                y,
+                marker,
+                color = color,
+                markersize = markersize,
+                linewidth = linewidth,
+                label = label,
+                markeredgewidth = markeredgewidth,
+                markeredgecolor = color,
+                markerfacecolor = markerfacecolor)
+    
+    if (type == 'semilogy') | (type == 'loglog'):
+        ax[-1].set_yscale('log')
+    if (type == 'semilogx') | (type == 'loglog'):
+        ax[-1].set_xscale('log')
+
+def prepare_figure(fig_size=(18,6),
+                   dark_mode = False,
+                   transparency = False,
+                   use_serif = True,
+                   tex_font = True):
+    """Prepare the figure.
+    fig_size must be chosen as a tuple, e.g. (18,6)
+    If dark_mode, then a dark background is set.
+    """
+    # set the right background
+    if transparency is False:
+        if dark_mode:
+            plt.style.use('dark_background')
+        else:
+            plt.style.use('default')
+    # set the figure size
+    fig = plt.figure(figsize=fig_size)
+    # choose the font
+    if tex_font:
+        if use_serif:
+            # Serif latex font
+            plt.rcParams.update({
+                "text.usetex": True,
+                "font.family": "serif",
+                "font.serif": ["Palatino"],
+            }) 
+        else:
+            # Non-serif latex font
+            plt.rcParams.update({
+                "text.usetex": True,
+                "font.family": "sans-serif",
+                "font.serif": ["Open Sans"],
+                "text.latex.preamble" : r"\usepackage{cmbright}"
+            })
     return fig
 
 def add_subplotlabels(fig, ax, labels, shift=0.2, specific_shift=None, color=None):
