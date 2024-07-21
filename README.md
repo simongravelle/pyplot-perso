@@ -18,25 +18,34 @@ See the [examples](examples.ipynb) notebook for the commands behind these figure
 
 ![illustration](examples/bi-panel-dm.png#gh-dark-mode-only)
 
-The Python code to geenrate the figure is:
+The Python code to generate the figure:
 
 ```python
     # Initialise figure
     myplt = PltTools()
-    myplt.prepare_figure(fig_size = (18,12), dark_mode = dark_mode, transparency = True, n_colone = 2)
+    myplt.prepare_figure(fig_size = (18,12), dark_mode = dark_mode,
+                         transparency = True, n_colone = 2)
     # Panel 1
     myplt.add_panel(panel_position = [0, 0])
-    myplt.add_plot(x = x1, y = y1/2, marker = "o", data_color = 2, markersize = 6, data_label = r"$\textrm{data}~\alpha$")
-    myplt.add_plot(x = x3, y = y3, marker = "o", data_color = 0, markersize = 10, data_label = r"$\textrm{data}~\beta$")
-    myplt.add_plot(x = x2, y = y2, marker = "-", data_color = "autogray", data_label = r"$\textrm{linear fit}$")
-    myplt.complete_panel(xlabel = r"$x ~ \textrm{[\AA{}]}$", ylabel = r"$t ~ \textrm{[ps]}$", panel_title = r"$\textrm{Time vs distance}$", xpad = 10)
+    myplt.add_plot(x = x1, y = y1/2, marker = "o", data_color = 2,
+                   markersize = 6, data_label = r"$\textrm{data}~\alpha$")
+    myplt.add_plot(x = x3, y = y3, marker = "o", data_color = 0, markersize = 10,
+                   data_label = r"$\textrm{data}~\beta$")
+    myplt.add_plot(x = x2, y = y2, marker = "-", data_color = "autogray",
+                   data_label = r"$\textrm{linear fit}$")
+    myplt.complete_panel(xlabel = r"$x ~ \textrm{[\AA{}]}$", ylabel = r"$t ~ \textrm{[ps]}$",
+                         panel_title = r"$\textrm{Time vs distance}$", xpad = 10)
     myplt.set_boundaries(y_boundaries = (0, 5))
     # Panel 2
     myplt.add_panel(type = 'loglog', panel_position = [0, 1])
-    myplt.add_plot(x = x4, y = y4, marker = "o", data_color = 0, markersize = 16, data_label = None, open_symbols = False)
-    myplt.add_plot(x = x5, y = y5, marker = "p", data_color = 0, markersize = 16, data_label = None, open_symbols = False)
-    myplt.add_plot(x = x6, y = y6, marker = "^", data_color = 0, markersize = 16, data_label = None, open_symbols = False)
-    myplt.complete_panel(xlabel = r"$E ~ \textrm{[J]}$", ylabel = r"$N_\textrm{p} ~ [0]$", panel_title = r"$\textrm{Population size vs energy}$", xpad = 10)
+    myplt.add_plot(x = x4, y = y4, marker = "o", data_color = 0,
+                   markersize = 16, data_label = None, open_symbols = False)
+    myplt.add_plot(x = x5, y = y5, marker = "p", data_color = 0,
+                   markersize = 16, data_label = None, open_symbols = False)
+    myplt.add_plot(x = x6, y = y6, marker = "^", data_color = 0,
+                   markersize = 16, data_label = None, open_symbols = False)
+    myplt.complete_panel(xlabel = r"$E ~ \textrm{[J]}$", ylabel = r"$N_\textrm{p} ~ [0]$",
+                         panel_title = r"$\textrm{Population size vs energy}$", xpad = 10)
     myplt.set_boundaries(x_boundaries = (0.01, 1000), y_boundaries = (0.01, 1000))
     # Finish figure
     myplt.add_subplotlabels(type_label_panel = "a")
