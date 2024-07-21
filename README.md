@@ -10,8 +10,6 @@ My own Python class for making [Pyplot](https://matplotlib.org/3.5.3/api/_as_gen
 
 ## Example
 
-See the [examples](examples.ipynb) notebook for the commands behind these figures.
-
 ### Simple bi-panel plot
 
 ![illustration](examples/bi-panel.png#gh-light-mode-only)
@@ -51,3 +49,5 @@ The Python code to generate the figure:
     myplt.add_subplotlabels(type_label_panel = "a")
     myplt.save_figure(filename = "bi-panel", saving_path = 'examples/', show = False)
 ```
+
+See also the [examples](examples.ipynb) Notebook.
