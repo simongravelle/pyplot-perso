@@ -115,7 +115,6 @@ class PltTools():
                          'weight': 'normal',
                          'size': self.fontsize}
         
-
     def update_parameters(self, **args):    
         for arg, value in args.items():
             setattr(self, arg, value)
@@ -125,6 +124,16 @@ class PltTools():
                 self.axis_color = gray_for_dm
             else:
                 self.axis_color = gray_for_lm
+
+    def reset_parameters(self):
+        """Some parameters value need to be forgotten."""
+        self.open_symbols = False
+        self.data_label = False
+        self.marker = None
+        self.type = "plot"
+        self.markersize = 12
+        self.data_linewidth = 4
+        self.data_color = None
 
     def prepare_figure(self, **args):
 
@@ -231,6 +240,8 @@ class PltTools():
             self.ax[-1].set_yscale('log')
         if (self.type == 'semilogx') | (self.type == 'loglog'):
             self.ax[-1].set_xscale('log')
+
+        self.reset_parameters()
 
     def add_subplotlabels(self, **args):
         """Add a labels to each axis of a figure.

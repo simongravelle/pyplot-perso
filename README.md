@@ -3,7 +3,7 @@
 My own Python class for making [Pyplot](https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html) figures compatible with Latex documents. These functions are used for several of my personal projects, including [LAMMPS tutorials](https://lammpstutorials.github.io) and 
 [NMRforMD](https://nmrformd.readthedocs.io).
 
-## Examples
+## Exemples
 
 ### Simple bi-panel figure
 
@@ -49,5 +49,5 @@ See also the [examples](examples.ipynb) Notebook.
 
 ## Light mode vs dark mode
 
-- For web integration, use either dark or light mode with a transparent background, as done for instance in the website/ebook of [lammps tutorials](https://lammpstutorials.github.io).
+- For web integration, use either dark or light mode with a transparent background, as done for instance in [lammps tutorials](https://lammpstutorials.github.io).
 - For scientific publication, use the light mode without transparent background.
