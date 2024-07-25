@@ -206,13 +206,13 @@ class PltTools():
             data_color = colorserie1[self.cpt_colors]
         elif isinstance(self.data_color, int):
             data_color = colorserie1[self.data_color]
+        elif len(self.data_color) == 3:
+            data_color = self.data_color
         elif self.data_color == "autogray":
             if self.dark_mode:
                  data_color = np.array([0.9, 0.9, 0.9])
             else:
                 data_color = np.array([0.1, 0.1, 0.1])
-        else:
-            data_color = self.data_color
 
         # In case of open symbol choice
         if self.open_symbols:
