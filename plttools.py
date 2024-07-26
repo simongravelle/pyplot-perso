@@ -242,12 +242,8 @@ class PltTools():
                         self.y,
                         self.marker,
                         color = data_color,
-                        markersize = self.markersize,
                         linewidth = self.data_linewidth,
-                        label = self.data_label,
-                        markeredgewidth = self.markeredgewidth,
-                        markeredgecolor = data_color,
-                        markerfacecolor = self.markerfacecolor)
+                        label = self.data_label)
         self.cpt_colors += 1
 
         # Convert the axis to log        
