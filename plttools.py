@@ -45,7 +45,7 @@ class PltTools():
                  fontsize = 'default',
                  tickwidth1 = 2.5,
                  tickwidth2 = 2,
-                 legend = True,
+                 legend = False,
                  ncol_legend = 1,
                  locator_x = 'auto',
                  locator_y = 'auto',
@@ -134,6 +134,7 @@ class PltTools():
         self.markersize = 12
         self.data_linewidth = 4
         self.data_color = None
+        self.legend = False
 
     def prepare_figure(self, **args):
 
