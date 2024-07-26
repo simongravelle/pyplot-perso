@@ -243,7 +243,8 @@ class PltTools():
                         self.marker,
                         color = data_color,
                         linewidth = self.data_linewidth,
-                        label = self.data_label)
+                        label = self.data_label,
+                        facecolor = np.array([data_color[0], data_color[1], data_color[2], 0.5]))
         self.cpt_colors += 1
 
         # Convert the axis to log        
