@@ -226,16 +226,28 @@ class PltTools():
             self.markerfacecolor = data_color
             
         #assert self.x is not None
-        self.ax[-1].plot(self.x,
-                    self.y,
-                    self.marker,
-                    color = data_color,
-                    markersize = self.markersize,
-                    linewidth = self.data_linewidth,
-                    label = self.data_label,
-                    markeredgewidth = self.markeredgewidth,
-                    markeredgecolor = data_color,
-                    markerfacecolor = self.markerfacecolor)
+        if self.type == "plot":
+            self.ax[-1].plot(self.x,
+                        self.y,
+                        self.marker,
+                        color = data_color,
+                        markersize = self.markersize,
+                        linewidth = self.data_linewidth,
+                        label = self.data_label,
+                        markeredgewidth = self.markeredgewidth,
+                        markeredgecolor = data_color,
+                        markerfacecolor = self.markerfacecolor)
+        elif self.type == "fill":
+            self.ax[-1].fill_between(self.x,
+                        self.y,
+                        self.marker,
+                        color = data_color,
+                        markersize = self.markersize,
+                        linewidth = self.data_linewidth,
+                        label = self.data_label,
+                        markeredgewidth = self.markeredgewidth,
+                        markeredgecolor = data_color,
+                        markerfacecolor = self.markerfacecolor)
         self.cpt_colors += 1
 
         # Convert the axis to log        
