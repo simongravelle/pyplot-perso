@@ -46,6 +46,7 @@ class PltTools():
                  tickwidth1 = 2.5,
                  tickwidth2 = 2,
                  legend = False,
+                 handlelength_legend = 0.86, 
                  ncol_legend = 1,
                  locator_x = 'auto',
                  locator_y = 'auto',
@@ -94,6 +95,7 @@ class PltTools():
         self.tickwidth1 = tickwidth1
         self.tickwidth2 = tickwidth2
         self.legend = legend
+        self.handlelength_legend = handlelength_legend
         self.ncol_legend = ncol_legend
         self.locator_x = locator_x
         self.locator_y = locator_y
@@ -385,7 +387,8 @@ class PltTools():
                 self.ax[-1].legend(frameon=False, fontsize=self.fontsize,
                                    labelcolor=self.axis_color, loc='best',
                                    handletextpad=0.5, ncol=self.ncol_legend,
-                                   handlelength = 0.86, borderpad = 0.3, 
+                                   handlelength = self.handlelength_legend,
+                                   borderpad = 0.3, 
                                    labelspacing=0.3)
                     
         # color the axis if requested
