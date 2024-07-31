@@ -226,7 +226,7 @@ class PltTools():
             self.markerfacecolor = data_color
             
         #assert self.x is not None
-        if self.type == "plot":
+        if (self.type == "plot") | (self.type == "semilogy") | (self.type == "semilogx") | (self.type == "loglog"):
             self.ax[-1].plot(self.x,
                         self.y,
                         self.marker,
