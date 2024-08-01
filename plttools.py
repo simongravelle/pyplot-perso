@@ -149,7 +149,7 @@ class PltTools():
             else:
                 plt.style.use('default')
         # set the figure size
-        self.gs = gridspec.GridSpec(2, 2)
+        self.gs = gridspec.GridSpec(self.n_line, self.n_colone)
         fig = plt.figure(figsize=self.fig_size)
         # choose the font
         if self.tex_font:
