@@ -444,6 +444,23 @@ class PltTools():
         self.fig.tight_layout()
         if self.transparency is False:
             plt.style.use('default')
+            # need to reset the font after default is invoked
+            if self.tex_font:
+                if self.use_serif:
+                    # Serif latex font
+                    plt.rcParams.update({
+                        "text.usetex": True,
+                        "font.family": "serif",
+                        "font.serif": ["Palatino"],
+                    }) 
+                else:
+                    # Non-serif latex font
+                    plt.rcParams.update({
+                        "text.usetex": True,
+                        "font.family": "sans-serif",
+                        "font.serif": ["Open Sans"],
+                        "text.latex.preamble" : r"\usepackage{cmbright}"
+                    })
         if self.dark_mode:
             plt.savefig(saving_path + self.filename + "-dm.png",
                         bbox_inches = 'tight', pad_inches = 0.062,
