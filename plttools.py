@@ -59,6 +59,7 @@ class PltTools():
                  y_boundaries=None,
                  y_ticks=None,
                  saving_path = None,
+                 saving_format = "png",
                  filename = None,
                  *args,
                  **kwargs
@@ -109,6 +110,7 @@ class PltTools():
         self.y_ticks=y_ticks
         self.saving_path = saving_path
         self.filename = filename
+        self.saving_format = saving_format
 
         if self.fontsize == 'default':
             self.fontsize = 34
@@ -462,10 +464,19 @@ class PltTools():
                         "text.latex.preamble" : r"\usepackage{cmbright}"
                     })
         if self.dark_mode:
+            if self.saving_format == 'pdf':
+                print("dark mode and pdf not supported. saving to png")
             plt.savefig(saving_path + self.filename + "-dm.png",
                         bbox_inches = 'tight', pad_inches = 0.062,
                         transparent=self.transparency, dpi=200)
         else:
-            plt.savefig(saving_path + self.filename + ".png",
-                        bbox_inches = 'tight', pad_inches = 0.062,
-                        transparent=self.transparency, dpi=200)
+            if self.saving_format == 'pdf':
+                if self.transparency:
+                    print("pdf and transparency were chosen")
+                plt.savefig(saving_path + self.filename + ".pdf",
+                            bbox_inches = 'tight', pad_inches = 0.062,
+                            transparent=self.transparency, dpi=200)
+            elif self.saving_format == 'png':
+                plt.savefig(saving_path + self.filename + ".png",
+                            bbox_inches = 'tight', pad_inches = 0.062,
+                            transparent=self.transparency, dpi=200)
