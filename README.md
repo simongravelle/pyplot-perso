@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/737122279.svg)](https://zenodo.org/doi/10.5281/zenodo.13341527)
+
 # Matplotlib Pyplot functions
 
 My own Python class for making [Pyplot](https://matplotlib.org/3.5.3/api/_as_gen/matplotlib.pyplot.html)
