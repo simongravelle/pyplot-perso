@@ -259,9 +259,7 @@ class PltTools():
                         marker = self.marker,
                         color = data_color,
                         linewidth = self.data_linewidth,
-                        label = self.data_label,
-                        markeredgecolor = data_color,
-                        markerfacecolor = self.markerfacecolor)   
+                        label = self.data_label)   
         self.cpt_colors += 1
 
         # Convert the axis to log        
