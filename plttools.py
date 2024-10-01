@@ -255,9 +255,9 @@ class PltTools():
         elif self.type == "scatter":
             self.ax[-1].scatter(self.x,
                         self.y,
-                        self.marker,
+                        s = self.markersize,
+                        marker = self.marker,
                         color = data_color,
-                        markersize = self.markersize,
                         linewidth = self.data_linewidth,
                         label = self.data_label,
                         markeredgecolor = data_color,
