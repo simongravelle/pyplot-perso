@@ -252,6 +252,16 @@ class PltTools():
                         linewidth = self.data_linewidth,
                         label = self.data_label,
                         facecolor = np.array([data_color[0], data_color[1], data_color[2], 0.5]))
+        elif self.type == "scatter":
+            self.ax[-1].scatter(self.x,
+                        self.y,
+                        self.marker,
+                        color = data_color,
+                        markersize = self.markersize,
+                        linewidth = self.data_linewidth,
+                        label = self.data_label,
+                        markeredgecolor = data_color,
+                        markerfacecolor = self.markerfacecolor)   
         self.cpt_colors += 1
 
         # Convert the axis to log        
