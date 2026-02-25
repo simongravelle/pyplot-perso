@@ -218,6 +218,8 @@ class PltTools():
             data_color = colorserie1[self.data_color]
         elif len(self.data_color) == 3:
             data_color = self.data_color
+        elif len(self.data_color) == 4:
+            data_color = self.data_color
         elif self.data_color == "autogray":
             if self.dark_mode:
                  data_color = np.array([0.9, 0.9, 0.9])
