@@ -273,27 +273,24 @@ class PltTools():
                                 linewidth=self.data_linewidth,
                                 label=self.data_label)
         
-        # Optional bars
-        if self.dx is not None:
-            for x_val in np.atleast_1d(self.dx):
-                self.ax[-1].axvline(
-                    x=x_val,
-                    color=getattr(self, 'dx_color', self.axis_color),
-                    linestyle=getattr(self, 'dx_style', '--'),
-                    linewidth=getattr(self, 'dx_width', 2),
-                    zorder=0,
-                    label='_nolegend_'
-                )
-        if self.dy is not None:
-            for y_val in np.atleast_1d(self.dy):
-                self.ax[-1].axhline(
-                    y=y_val,
-                    color=getattr(self, 'dy_color', self.axis_color),
-                    linestyle=getattr(self, 'dy_style', '--'),
-                    linewidth=getattr(self, 'dy_width', 2),
-                    zorder=0,
-                    label='_nolegend_'
-                )
+        xerr = self.dx if self.dx is not None else None
+        yerr = self.dy if self.dy is not None else None
+
+        self.ax[-1].errorbar(
+            self.x,
+            self.y,
+            xerr=xerr,  # horizontal error
+            yerr=yerr,  # vertical error
+            fmt=self.marker or 'o',  # marker style
+            color=data_color,
+            markersize=self.markersize,
+            linewidth=self.data_linewidth,
+            label=self.data_label,
+            markeredgewidth=self.markeredgewidth,
+            markeredgecolor=data_color,
+            markerfacecolor=self.markerfacecolor,
+            capsize=5  # adds little horizontal lines at the ends of error bars
+        )
 
         # Log axes
         if self.type in ['semilogy', 'loglog']:
