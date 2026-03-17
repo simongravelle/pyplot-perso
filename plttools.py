@@ -23,6 +23,14 @@ class PltTools():
                  panel_position = None,
                  x = None,
                  y = None,
+                 dx=None,
+                 dy=None,
+                 dx_color=None,
+                 dx_style='--',
+                 dx_width=2,
+                 dy_color=None,
+                 dy_style='--',
+                 dy_width=2,
                  marker = None,
                  type = "plot",
                  markersize = 12,
@@ -74,6 +82,14 @@ class PltTools():
         self.tex_font = tex_font
         self.x = x
         self.y = y
+        self.dx = dx
+        self.dy = dy
+        self.dx_color = dx_color
+        self.dx_style = dx_style
+        self.dx_width = dx_width
+        self.dy_color = dy_color
+        self.dy_style = dy_style
+        self.dy_width = dy_width
         self.panel_position = panel_position
         self.type = type
         self.marker = marker
@@ -144,6 +160,14 @@ class PltTools():
         self.data_color = None
         self.legend = False
         self.text_content = None
+        self.dx = None
+        self.dy = None
+        self.dx_color = None
+        self.dx_style = '--'
+        self.dx_width = 2
+        self.dy_color = None
+        self.dy_style = '--'
+        self.dy_width = 2
 
     def prepare_figure(self, **args):
 
@@ -208,68 +232,76 @@ class PltTools():
         self.cpt_colors = 0
 
     def add_plot(self, **args):
-
         self.update_parameters(**args)
-
+        
         # Pick color automatically
         if self.data_color is None:
             data_color = colorserie1[self.cpt_colors]
         elif isinstance(self.data_color, int):
             data_color = colorserie1[self.data_color]
-        elif len(self.data_color) == 3:
+        else:
             data_color = self.data_color
-        elif len(self.data_color) == 4:
-            data_color = self.data_color
-        elif self.data_color == "autogray":
-            if self.dark_mode:
-                 data_color = np.array([0.9, 0.9, 0.9])
-            else:
-                data_color = np.array([0.1, 0.1, 0.1])
-
-        # In case of open symbol choice
+        
+        # Open symbols
         if self.open_symbols:
             self.markerfacecolor = 'none'
             if self.markeredgewidth == 0:
                 self.markeredgewidth = 3
         else:
             self.markerfacecolor = data_color
-            
-        #assert self.x is not None
-        if (self.type == "plot") | (self.type == "semilogy") | (self.type == "semilogx") | (self.type == "loglog"):
-            self.ax[-1].plot(self.x,
-                        self.y,
-                        self.marker,
-                        color = data_color,
-                        markersize = self.markersize,
-                        linewidth = self.data_linewidth,
-                        label = self.data_label,
-                        markeredgewidth = self.markeredgewidth,
-                        markeredgecolor = data_color,
-                        markerfacecolor = self.markerfacecolor)
+        
+        if (self.type in ["plot", "semilogy", "semilogx", "loglog"]):
+            self.ax[-1].plot(self.x, self.y, self.marker,
+                            color=data_color,
+                            markersize=self.markersize,
+                            linewidth=self.data_linewidth,
+                            label=self.data_label,
+                            markeredgewidth=self.markeredgewidth,
+                            markeredgecolor=data_color,
+                            markerfacecolor=self.markerfacecolor)
         elif self.type == "fill":
-            self.ax[-1].fill_between(self.x,
-                        self.y,
-                        self.marker,
-                        color = data_color,
-                        linewidth = self.data_linewidth,
-                        label = self.data_label,
-                        facecolor = np.array([data_color[0], data_color[1], data_color[2], 0.5]))
+            self.ax[-1].fill_between(self.x, self.y, self.marker,
+                                    color=data_color,
+                                    linewidth=self.data_linewidth,
+                                    label=self.data_label,
+                                    facecolor=np.array([data_color[0], data_color[1], data_color[2], 0.5]))
         elif self.type == "scatter":
-            self.ax[-1].scatter(self.x,
-                        self.y,
-                        s = self.markersize,
-                        marker = self.marker,
-                        color = data_color,
-                        linewidth = self.data_linewidth,
-                        label = self.data_label)   
-        self.cpt_colors += 1
+            self.ax[-1].scatter(self.x, self.y,
+                                s=self.markersize,
+                                marker=self.marker,
+                                color=data_color,
+                                linewidth=self.data_linewidth,
+                                label=self.data_label)
+        
+        # Optional bars
+        if self.dx is not None:
+            for x_val in np.atleast_1d(self.dx):
+                self.ax[-1].axvline(
+                    x=x_val,
+                    color=getattr(self, 'dx_color', self.axis_color),
+                    linestyle=getattr(self, 'dx_style', '--'),
+                    linewidth=getattr(self, 'dx_width', 2),
+                    zorder=0,
+                    label='_nolegend_'
+                )
+        if self.dy is not None:
+            for y_val in np.atleast_1d(self.dy):
+                self.ax[-1].axhline(
+                    y=y_val,
+                    color=getattr(self, 'dy_color', self.axis_color),
+                    linestyle=getattr(self, 'dy_style', '--'),
+                    linewidth=getattr(self, 'dy_width', 2),
+                    zorder=0,
+                    label='_nolegend_'
+                )
 
-        # Convert the axis to log        
-        if (self.type == 'semilogy') | (self.type == 'loglog'):
+        # Log axes
+        if self.type in ['semilogy', 'loglog']:
             self.ax[-1].set_yscale('log')
-        if (self.type == 'semilogx') | (self.type == 'loglog'):
+        if self.type in ['semilogx', 'loglog']:
             self.ax[-1].set_xscale('log')
 
+        self.cpt_colors += 1
         self.reset_parameters()
 
     def add_subplotlabels(self, **args):
