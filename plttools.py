@@ -285,7 +285,7 @@ class PltTools():
             color=data_color,
             markersize=self.markersize,
             linewidth=self.data_linewidth,
-            label=self.data_label,
+            # label=self.data_label,
             markeredgewidth=self.markeredgewidth,
             markeredgecolor=data_color,
             markerfacecolor=self.markerfacecolor,
