@@ -514,20 +514,15 @@ class PltTools():
         self.fig.tight_layout()
         self.fig.canvas.draw()
 
-        renderer = self.fig.canvas.get_renderer()
-
         for i, ax in enumerate(self.ax):
-            bbox = ax.get_tightbbox(renderer).transformed(
-                self.fig.dpi_scale_trans.inverted()
-            )
+            bbox = ax.get_window_extent()
 
             width = bbox.width
             height = bbox.height
 
             print(f"Panel {i+1}:")
-            print(f"  Size: {width:.3f} x {height:.3f} inches")
-            print(f"  Aspect ratio (W/H): {width/height:.4f}")
-            print(f"  Squareness: {min(width,height)/max(width,height):.4f}")
+            print(f"  Pixels: {width:.1f} x {height:.1f}")
+            print(f"  Aspect ratio: {width/height:.4f}")
         
         if self.transparency is False:
             plt.style.use('default')
