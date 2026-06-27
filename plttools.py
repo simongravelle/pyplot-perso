@@ -512,19 +512,22 @@ class PltTools():
             saving_path = "./"
 
         self.fig.tight_layout()
-
-        # Force a draw so the renderer is available and text extents are finalized
         self.fig.canvas.draw()
 
         renderer = self.fig.canvas.get_renderer()
-        bbox = self.fig.get_tightbbox(renderer)
 
-        width = bbox.width
-        height = bbox.height
+        for i, ax in enumerate(self.ax):
+            bbox = ax.get_tightbbox(renderer).transformed(
+                self.fig.dpi_scale_trans.inverted()
+            )
 
-        print(f"Final size: {width:.3f} x {height:.3f} inches")
-        print(f"Aspect ratio (W/H): {width/height:.4f}")
-        print(f"Squareness: {min(width, height)/max(width, height):.4f}")
+            width = bbox.width
+            height = bbox.height
+
+            print(f"Panel {i+1}:")
+            print(f"  Size: {width:.3f} x {height:.3f} inches")
+            print(f"  Aspect ratio (W/H): {width/height:.4f}")
+            print(f"  Squareness: {min(width,height)/max(width,height):.4f}")
         
         if self.transparency is False:
             plt.style.use('default')
