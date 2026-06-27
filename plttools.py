@@ -520,9 +520,9 @@ class PltTools():
             width = bbox.width
             height = bbox.height
 
-            print(f"Panel {i+1}:")
-            print(f"  Pixels: {width:.1f} x {height:.1f}")
-            print(f"  Aspect ratio: {width/height:.4f}")
+            if i == 1:
+                print(f"  Pixels: width = {width:.1f} x height = {height:.1f}")
+                print(f"  Aspect ratio: {width/height:.4f}")
         
         if self.transparency is False:
             plt.style.use('default')
