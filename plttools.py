@@ -245,20 +245,22 @@ class PltTools():
             data_color = colorserie1[self.data_color]
         else:
             data_color = self.data_color
-        
-        # Open symbols
+
+        # Marker colors and linewidth
         if self.open_symbols:
-            self.markerfacecolor = 'none'
+            markerfacecolor = 'none'
+
             if self.markeredgewidth == 0:
-                self.markeredgewidth = 3
+                markeredgewidth = 3
             else:
                 markeredgewidth = self.markeredgewidth
+
         else:
             markerfacecolor = (
                 data_color
                 if self.markerfacecolor is None
                 else self.markerfacecolor
-                )
+            )
 
             markeredgewidth = self.markeredgewidth
 
