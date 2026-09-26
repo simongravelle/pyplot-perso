@@ -32,9 +32,12 @@ class PltTools():
                  dy_style='--',
                  dy_width=2,
                  marker = None,
-                 type = "plot",
                  markersize = 12,
+                 markerfacecolor = None,
+                 markeredgecolor = None,
+                 markeredgewidth = 0,
                  data_linewidth = 4,
+                 type = "plot",
                  data_color = None,
                  axis_color = None,
                  data_label = None,
@@ -43,7 +46,6 @@ class PltTools():
                  sshift_label_panel = None,
                  type_label_panel = "a",
                  open_symbols = False,
-                 markeredgewidth = 0,
                  n_colone = 1,
                  n_line = 1,
                  xlabel = None,
@@ -92,6 +94,8 @@ class PltTools():
         self.dy_width = dy_width
         self.panel_position = panel_position
         self.type = type
+        self.markerfacecolor = markerfacecolor
+        self.markeredgecolor = markeredgecolor
         self.marker = marker
         self.markersize = markersize
         self.data_linewidth = data_linewidth
@@ -247,18 +251,34 @@ class PltTools():
             self.markerfacecolor = 'none'
             if self.markeredgewidth == 0:
                 self.markeredgewidth = 3
+            else:
+                markeredgewidth = self.markeredgewidth
         else:
-            self.markerfacecolor = data_color
+            markerfacecolor = (
+                data_color
+                if self.markerfacecolor is None
+                else self.markerfacecolor
+                )
+
+            markeredgewidth = self.markeredgewidth
+
+        markeredgecolor = (
+            data_color
+            if self.markeredgecolor is None
+            else self.markeredgecolor
+        )
         
         if (self.type in ["plot", "semilogy", "semilogx", "loglog"]):
-            self.ax[-1].plot(self.x, self.y, self.marker,
-                            color=data_color,
-                            markersize=self.markersize,
-                            linewidth=self.data_linewidth,
-                            label=self.data_label,
-                            markeredgewidth=self.markeredgewidth,
-                            markeredgecolor=data_color,
-                            markerfacecolor=self.markerfacecolor)
+            self.ax[-1].plot(
+                self.x, self.y, self.marker,
+                color=data_color,
+                markersize=self.markersize,
+                linewidth=self.data_linewidth,
+                label=self.data_label,
+                markeredgewidth=markeredgewidth,
+                markeredgecolor=markeredgecolor,
+                markerfacecolor=markerfacecolor
+            )
         elif self.type == "fill":
             self.ax[-1].fill_between(self.x, self.y, self.marker,
                                     color=data_color,
