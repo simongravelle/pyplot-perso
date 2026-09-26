@@ -155,6 +155,9 @@ class PltTools():
 
     def reset_parameters(self):
         """Some parameters value need to be forgotten."""
+        self.markerfacecolor = False
+        self.markeredgecolor = False
+        self.markeredgewidth = False
         self.open_symbols = False
         self.data_label = None
         self.marker = None
